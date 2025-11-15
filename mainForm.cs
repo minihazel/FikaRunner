@@ -1255,14 +1255,24 @@ namespace FikaRunner
 
         private void btnBrowseClient_MouseEnter(object sender, EventArgs e)
         {
-            if (isServerRunning) return;
+            if (isServerRunning)
+            {
+                btnBrowseClient.Image = Properties.Resources.client_selected;
+                return;
+            }
+
             btnBrowseClient.Image = Properties.Resources.client_selected;
             clientTitle.Visible = true;
         }
 
         private void btnBrowseClient_MouseLeave(object sender, EventArgs e)
         {
-            if (isServerRunning) return;
+            if (isServerRunning)
+            {
+                btnBrowseClient.Image = Properties.Resources.client_selected;
+                return;
+            }
+
             btnBrowseClient.Image = Properties.Resources.client;
             clientTitle.Visible = false;
         }
