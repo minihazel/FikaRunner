@@ -39,7 +39,6 @@ namespace FikaRunner
         // ints
         private int dropdownItemHeight = 40;
         private int hoveredDropdownIndex = -1;
-        private const int SW_HIDE = 0;
 
         // processes
         public Process? sptServerProcess = null;
@@ -52,12 +51,10 @@ namespace FikaRunner
         public BackgroundWorker? sptServerWorker = null;
         public BackgroundWorker? checkServerWorker = null;
 
-        // player workers
-        // public BackgroundWorker? playerWorker = null;
+        // player worker
         public BackgroundWorker? playerEndDetectWorker = null;
 
-        // fika workers
-        // public BackgroundWorker? fikaWorker = null;
+        // fika worker
         public BackgroundWorker? fikaEndDetectWorker = null;
 
         // notify icons
