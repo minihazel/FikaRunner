@@ -44,13 +44,11 @@
             valueProfile = new TextBox();
             valueHomeDir = new TextBox();
             btnBrowsePlayerDir = new PictureBox();
-            btnClearPlayerDir = new PictureBox();
             valuePlayerDir = new TextBox();
             panel1.SuspendLayout();
             rightPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnResetSettings).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnBrowsePlayerDir).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnClearPlayerDir).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -132,7 +130,6 @@
             rightPanel.Controls.Add(valueProfile);
             rightPanel.Controls.Add(valueHomeDir);
             rightPanel.Controls.Add(btnBrowsePlayerDir);
-            rightPanel.Controls.Add(btnClearPlayerDir);
             rightPanel.Controls.Add(valuePlayerDir);
             rightPanel.Location = new Point(177, 54);
             rightPanel.Name = "rightPanel";
@@ -142,6 +139,7 @@
             // chkDisplayPopup
             // 
             chkDisplayPopup.AutoSize = true;
+            chkDisplayPopup.Cursor = Cursors.Hand;
             chkDisplayPopup.Location = new Point(3, 159);
             chkDisplayPopup.Name = "chkDisplayPopup";
             chkDisplayPopup.Size = new Size(382, 40);
@@ -234,7 +232,7 @@
             btnBrowsePlayerDir.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnBrowsePlayerDir.Cursor = Cursors.Hand;
             btnBrowsePlayerDir.Image = Properties.Resources.browse;
-            btnBrowsePlayerDir.Location = new Point(325, 42);
+            btnBrowsePlayerDir.Location = new Point(351, 41);
             btnBrowsePlayerDir.Name = "btnBrowsePlayerDir";
             btnBrowsePlayerDir.Size = new Size(20, 20);
             btnBrowsePlayerDir.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -243,20 +241,6 @@
             btnBrowsePlayerDir.Click += btnBrowsePlayerDir_Click;
             btnBrowsePlayerDir.MouseEnter += btnBrowsePlayerDir_MouseEnter;
             btnBrowsePlayerDir.MouseLeave += btnBrowsePlayerDir_MouseLeave;
-            // 
-            // btnClearPlayerDir
-            // 
-            btnClearPlayerDir.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnClearPlayerDir.Cursor = Cursors.Hand;
-            btnClearPlayerDir.Image = Properties.Resources.bin;
-            btnClearPlayerDir.Location = new Point(351, 42);
-            btnClearPlayerDir.Name = "btnClearPlayerDir";
-            btnClearPlayerDir.Size = new Size(20, 20);
-            btnClearPlayerDir.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnClearPlayerDir.TabIndex = 7;
-            btnClearPlayerDir.TabStop = false;
-            btnClearPlayerDir.MouseEnter += btnClearHomeDir_MouseEnter;
-            btnClearPlayerDir.MouseLeave += btnClearHomeDir_MouseLeave;
             // 
             // valuePlayerDir
             // 
@@ -292,7 +276,6 @@
             rightPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnResetSettings).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnBrowsePlayerDir).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnClearPlayerDir).EndInit();
             ResumeLayout(false);
         }
 
@@ -304,7 +287,6 @@
         private Label lblHomeDir;
         private TextBox valuePlayerDir;
         private TextBox valueHomeDir;
-        private PictureBox btnClearPlayerDir;
         private PictureBox btnBrowsePlayerDir;
         private TextBox valueProfile;
         private Label label1;

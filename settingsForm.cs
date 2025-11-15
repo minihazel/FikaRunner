@@ -87,12 +87,10 @@ namespace FikaRunner
             if (Properties.Settings.Default.firstLaunch)
             {
                 btnBrowsePlayerDir.Enabled = false;
-                btnClearPlayerDir.Enabled = false;
             }
             else
             {
                 btnBrowsePlayerDir.Enabled = true;
-                btnClearPlayerDir.Enabled = true;
             }
 
             chkDisplayPopup.Checked = Properties.Settings.Default.displayWarning;
@@ -102,26 +100,6 @@ namespace FikaRunner
 
             extendedConfigPath = Path.Join(currentConfigPath, "SPT", "user", "sptSettings", "Graphics.ini");
             lblPlayerDir.Select();
-        }
-
-        private void btnClearPlayerDir_MouseEnter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnClearPlayerDir_MouseLeave(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnClearHomeDir_MouseEnter(object sender, EventArgs e)
-        {
-            btnClearPlayerDir.Image = Properties.Resources.bin_selected;
-        }
-
-        private void btnClearHomeDir_MouseLeave(object sender, EventArgs e)
-        {
-            btnClearPlayerDir.Image = Properties.Resources.bin;
         }
 
         private void btnClearPlayerDir_Click(object sender, EventArgs e)

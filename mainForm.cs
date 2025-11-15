@@ -26,7 +26,7 @@ namespace FikaRunner
     {
 
         // strings and lists
-        public static string? currentEnv = $"D:\\SPT Iterations\\4.0.0 Host";
+        public static string? currentEnv = Environment.CurrentDirectory;
         public static string? playerDir = string.Empty;
         public static string? homeDir = string.Empty;
         public static string? selectedAID = string.Empty;
