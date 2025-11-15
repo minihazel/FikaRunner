@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             topPanel = new Panel();
+            statusConfirmed = new Label();
             settingsClient = new Label();
             settingsCopyOutput = new Label();
             clientTitle = new Label();
@@ -56,7 +57,6 @@
             panelPlayerProfile = new Panel();
             btnPlayerProfile = new Button();
             lblPlayerProfile = new Label();
-            dropdownList = new Panel();
             panelProfileInfo = new Panel();
             statusInvalidProfile = new Label();
             profileSeparator3 = new Panel();
@@ -65,12 +65,12 @@
             statusAID = new Label();
             profileSeparator1 = new Panel();
             statusDisplayName = new Label();
+            dropdownList = new Panel();
             errorPanel = new Panel();
             label3 = new Label();
             panelInstruction = new Panel();
             imgInstruction = new PictureBox();
             label2 = new Label();
-            statusConfirmed = new Label();
             topPanel.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnBrowseClientFolder).BeginInit();
@@ -106,6 +106,18 @@
             topPanel.Name = "topPanel";
             topPanel.Size = new Size(849, 129);
             topPanel.TabIndex = 0;
+            // 
+            // statusConfirmed
+            // 
+            statusConfirmed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            statusConfirmed.Font = new Font("Bahnschrift", 8F, FontStyle.Bold);
+            statusConfirmed.Location = new Point(570, 18);
+            statusConfirmed.Name = "statusConfirmed";
+            statusConfirmed.Size = new Size(37, 22);
+            statusConfirmed.TabIndex = 7;
+            statusConfirmed.Text = "✔️";
+            statusConfirmed.TextAlign = ContentAlignment.MiddleCenter;
+            statusConfirmed.Visible = false;
             // 
             // settingsClient
             // 
@@ -405,8 +417,8 @@
             panelPlayerProfile.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             panelPlayerProfile.Controls.Add(btnPlayerProfile);
             panelPlayerProfile.Controls.Add(lblPlayerProfile);
-            panelPlayerProfile.Controls.Add(dropdownList);
             panelPlayerProfile.Controls.Add(panelProfileInfo);
+            panelPlayerProfile.Controls.Add(dropdownList);
             panelPlayerProfile.Font = new Font("Bender", 14F);
             panelPlayerProfile.Location = new Point(508, 3);
             panelPlayerProfile.Name = "panelPlayerProfile";
@@ -440,20 +452,6 @@
             lblPlayerProfile.TabIndex = 0;
             lblPlayerProfile.Text = "Select player profile";
             lblPlayerProfile.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // dropdownList
-            // 
-            dropdownList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            dropdownList.Cursor = Cursors.Hand;
-            dropdownList.Location = new Point(11, 97);
-            dropdownList.Name = "dropdownList";
-            dropdownList.Size = new Size(292, 265);
-            dropdownList.TabIndex = 3;
-            dropdownList.Visible = false;
-            dropdownList.Paint += dropdownList_Paint;
-            dropdownList.MouseClick += dropdownList_MouseClick;
-            dropdownList.MouseLeave += dropdownList_MouseLeave;
-            dropdownList.MouseMove += dropdownList_MouseMove;
             // 
             // panelProfileInfo
             // 
@@ -539,6 +537,20 @@
             statusDisplayName.Text = "Display name:";
             statusDisplayName.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // dropdownList
+            // 
+            dropdownList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            dropdownList.Cursor = Cursors.Hand;
+            dropdownList.Location = new Point(11, 97);
+            dropdownList.Name = "dropdownList";
+            dropdownList.Size = new Size(292, 265);
+            dropdownList.TabIndex = 3;
+            dropdownList.Visible = false;
+            dropdownList.Paint += dropdownList_Paint;
+            dropdownList.MouseClick += dropdownList_MouseClick;
+            dropdownList.MouseLeave += dropdownList_MouseLeave;
+            dropdownList.MouseMove += dropdownList_MouseMove;
+            // 
             // errorPanel
             // 
             errorPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -592,18 +604,6 @@
             label2.TabIndex = 1;
             label2.Text = "First game launch detected";
             label2.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // statusConfirmed
-            // 
-            statusConfirmed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            statusConfirmed.Font = new Font("Bahnschrift", 8F, FontStyle.Bold);
-            statusConfirmed.Location = new Point(570, 18);
-            statusConfirmed.Name = "statusConfirmed";
-            statusConfirmed.Size = new Size(37, 22);
-            statusConfirmed.TabIndex = 7;
-            statusConfirmed.Text = "✔️";
-            statusConfirmed.TextAlign = ContentAlignment.MiddleCenter;
-            statusConfirmed.Visible = false;
             // 
             // mainForm
             // 

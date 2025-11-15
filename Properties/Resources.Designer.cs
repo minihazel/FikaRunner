@@ -123,6 +123,16 @@ namespace FikaRunner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap client_disabled {
+            get {
+                object obj = ResourceManager.GetObject("client_disabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap client_selected {
             get {
                 object obj = ResourceManager.GetObject("client_selected", resourceCulture);
@@ -246,6 +256,16 @@ namespace FikaRunner.Properties {
         internal static System.Drawing.Bitmap settings {
             get {
                 object obj = ResourceManager.GetObject("settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings_disabled {
+            get {
+                object obj = ResourceManager.GetObject("settings_disabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -17,7 +17,7 @@ namespace FikaRunner
         {
             "Windowed", // 2
             "Borderless Fullscreen", // 1
-            "Fullscreen" // -1
+            "Fullscreen" // 0
         };
 
         public settingsForm()
@@ -309,9 +309,9 @@ namespace FikaRunner
                     int newModeValue = selectedMode switch
                     {
                         "Windowed" => 2,
-                        "Borderless Fullscreen" => 0,
-                        "Fullscreen" => -1,
-                        _ => 2
+                        "Borderless Fullscreen" => 1,
+                        "Fullscreen" => 0,
+                        _ => 1
                     };
 
                     try

@@ -242,13 +242,13 @@ namespace FikaRunner
                     JObject json = (JObject)JToken.ReadFrom(reader);
 
                     return json["info"] != null &&
-                           json["characters"]?["pmc"] != null &&
-                           json["characters"]?["pmc"]?["Info"] != null &&
-                           json["characters"]?["pmc"]?["_id"] != null &&
-                           json["characters"]?["scav"] != null &&
-                           json["dialogues"] != null &&
-                           json["inraid"] != null &&
-                           json["insurance"] != null;
+                            json["characters"]?["pmc"] != null &&
+                            json["characters"]?["pmc"] != null &&
+                            json["characters"]?["pmc"] != null &&
+                            json["characters"]?["scav"] != null &&
+                            json["dialogues"] != null &&
+                            json["inraid"] != null &&
+                            json["insurance"] != null;
                 }
             }
             catch
@@ -319,14 +319,25 @@ namespace FikaRunner
             string profilesPath = Path.Join(currentEnv, "SPT", "user", "profiles");
             string[] profileJsons = Directory.GetFiles(profilesPath, "*.json");
 
+            if (profileJsons.Length == 0)
+            {
+                btnPlayerProfile.Enabled = false;
+                statusInvalidProfile.Visible = true;
+                statusInvalidProfile.Text = "No profiles available! Use the SPT Launcher to generate at least one.";
+                return;
+            }
+
+            statusInvalidProfile.Visible = false;
+            statusInvalidProfile.Text = "Invalid profile! Launching this profile may break.";
+
             for (int i = 0; i < profileJsons.Length; i++)
             {
                 string fullPath = Path.GetFullPath(profileJsons[i]);
                 UserInfo userInfo = getProfileInfo(fullPath);
 
-                string profileAID = userInfo.id.ToString();
-                string profileDisplayName = userInfo.username.ToString();
-                string profileEdition = userInfo.edition.ToString();
+                string? profileAID = userInfo?.id?.ToString();
+                string? profileDisplayName = userInfo?.username?.ToString();
+                string? profileEdition = userInfo?.edition?.ToString();
 
                 if (profileDisplayName.StartsWith("headless_"))
                 {
@@ -356,9 +367,9 @@ namespace FikaRunner
 
         private void displayProfileDetails(UserInfo fetchedProfile, string path)
         {
-            string recentProfileDisplayName = fetchedProfile.username.ToString();
-            string recentProfileAID = fetchedProfile.id.ToString();
-            string recentProfileEdition = fetchedProfile.edition.ToString();
+            string? recentProfileDisplayName = fetchedProfile?.username?.ToString();
+            string? recentProfileAID = fetchedProfile?.id?.ToString();
+            string? recentProfileEdition = fetchedProfile?.edition?.ToString();
 
             btnPlayerProfile.Text = "> " + recentProfileDisplayName;
             btnPlayerProfile.Tag = recentProfileAID;
@@ -367,13 +378,13 @@ namespace FikaRunner
             statusAID.Text = "AID > " + recentProfileAID;
             statusGameEdition.Text = "Game version > " + recentProfileEdition;
 
-            if (!isValidSPTProfile(path))
+            if (isValidSPTProfile(path))
             {
-                statusInvalidProfile.Visible = true;
+                statusInvalidProfile.Visible = false;
             }
             else
             {
-                statusInvalidProfile.Visible = false;
+                statusInvalidProfile.Visible = true;
             }
 
             Properties.Settings.Default.lastProfile = recentProfileAID;
@@ -383,6 +394,8 @@ namespace FikaRunner
 
         private void btnBrowseClient_Click(object sender, EventArgs e)
         {
+            if (isServerRunning) return;
+
             if (firstLaunch)
             {
                 FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -652,11 +665,7 @@ namespace FikaRunner
                 // initializing
                 sptServerProcess.Start();
                 sptServerProcess.BeginOutputReadLine();
-
-                // features
-                isServerRunning = true;
-                btnBrowseClient.Enabled = false;
-                checkServerUptime();
+                prepareLaunch();
             }
             catch (Exception ex)
             {
@@ -665,6 +674,19 @@ namespace FikaRunner
 
             Environment.CurrentDirectory = currentEnv;
             return sptServerProcess;
+        }
+
+        private void prepareLaunch()
+        {
+            isServerRunning = true;
+            btnPlayerProfile.Enabled = false;
+            btnBrowseClient.Enabled = false;
+            btnOpenSettings.Enabled = false;
+
+            btnBrowseClient.Image = Properties.Resources.client_disabled;
+            btnOpenSettings.Image = Properties.Resources.settings_disabled;
+
+            checkServerUptime();
         }
 
         /*
@@ -862,8 +884,13 @@ namespace FikaRunner
         private void preStartReset()
         {
             btnBrowseClient.Enabled = true;
-            consoleOutput.Clear();
+            btnPlayerProfile.Enabled = true;
+            btnOpenSettings.Enabled = true;
             isServerRunning = false;
+            consoleOutput.Clear();
+
+            btnBrowseClient.Image = Properties.Resources.client;
+            btnOpenSettings.Image = Properties.Resources.settings;
 
             sptServerProcess = null;
             fikaClientProcess = null;
@@ -1153,30 +1180,35 @@ namespace FikaRunner
 
         private void btnBrowseClient_MouseEnter(object sender, EventArgs e)
         {
+            if (isServerRunning) return;
             btnBrowseClient.Image = Properties.Resources.client_selected;
             clientTitle.Visible = true;
         }
 
         private void btnBrowseClient_MouseLeave(object sender, EventArgs e)
         {
+            if (isServerRunning) return;
             btnBrowseClient.Image = Properties.Resources.client;
             clientTitle.Visible = false;
         }
 
         private void btnOpenSettings_MouseEnter(object sender, EventArgs e)
         {
+            if (isServerRunning) return;
             btnOpenSettings.Image = Properties.Resources.settings_selected;
             settingsTitle.Visible = true;
         }
 
         private void btnOpenSettings_MouseLeave(object sender, EventArgs e)
         {
+            if (isServerRunning) return;
             btnOpenSettings.Image = Properties.Resources.settings;
             settingsTitle.Visible = false;
         }
 
         private void btnOpenSettings_Click(object sender, EventArgs e)
         {
+            if (isServerRunning) return;
             settingsForm frm = new settingsForm();
             frm.ShowDialog();
         }

@@ -21,7 +21,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="displayMode" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Windowed</Value>
+      <Value Profile="(Default)">Borderless Fullscreen</Value>
     </Setting>
   </Settings>
 </SettingsFile>
