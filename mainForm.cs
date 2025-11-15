@@ -1284,7 +1284,7 @@ namespace FikaRunner
         private void btnOpenSettings_Click(object sender, EventArgs e)
         {
             if (isServerRunning) return;
-            settingsForm frm = new settingsForm();
+            settingsForm frm = new settingsForm(this);
             frm.ShowDialog();
         }
 

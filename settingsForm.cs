@@ -9,6 +9,7 @@ namespace FikaRunner
 {
     public partial class settingsForm : Form, IMessageFilter
     {
+        private readonly mainForm _parentForm;
         public static string currentConfigPath = Properties.Settings.Default.globalClientDirectory;
         public string extendedConfigPath = string.Empty;
         public static bool isDropdownOpen = false;
@@ -21,7 +22,7 @@ namespace FikaRunner
             "Fullscreen" // 0
         };
 
-        public settingsForm()
+        public settingsForm(mainForm parent)
         {
             InitializeComponent();
             Application.AddMessageFilter(this);
@@ -29,6 +30,8 @@ namespace FikaRunner
             typeof(Panel).InvokeMember("DoubleBuffered",
                 System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
                 null, dropdownDisplay, new object[] { true });
+
+            _parentForm = parent;
         }
 
         public bool PreFilterMessage(ref Message m)
@@ -163,11 +166,14 @@ namespace FikaRunner
                     {
                         if (mainForm.isFikaCorePresent(root))
                         {
+                            Properties.Settings.Default.globalClientDirectory = root;
+                            Properties.Settings.Default.Save();
+
                             mainForm.playerDir = root;
                             valuePlayerDir.Text = root;
 
-                            Properties.Settings.Default.globalClientDirectory = root;
-                            Properties.Settings.Default.Save();
+                            bool isSwitching = true;
+                            _parentForm.showMainPanel(isSwitching);
                         }
                     }
                 }
