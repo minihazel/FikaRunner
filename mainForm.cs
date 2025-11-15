@@ -17,6 +17,8 @@ using System.Runtime.InteropServices;
 using Timer = System.Windows.Forms.Timer;
 using FikaRunner;
 using static FikaRunner.ProfileData;
+using System.Security.AccessControl;
+using FikaRunner.Properties;
 
 namespace FikaRunner
 {
@@ -24,7 +26,7 @@ namespace FikaRunner
     {
 
         // strings and lists
-        public static string? currentEnv = Environment.CurrentDirectory;
+        public static string? currentEnv = $"D:\\SPT Iterations\\4.0.0 Host";
         public static string? playerDir = string.Empty;
         public static string? homeDir = string.Empty;
         public static string? selectedAID = string.Empty;
@@ -193,6 +195,17 @@ namespace FikaRunner
                 }
             }
 
+            if (firstLaunch)
+            {
+                btnOpenSettings.Cursor = Cursors.Default;
+                btnOpenSettings.Image = Properties.Resources.settings_selected;
+            }
+            else
+            {
+                btnOpenSettings.Cursor = Cursors.Hand;
+                btnOpenSettings.Image = Properties.Resources.settings;
+            }
+
             // debug only
             Debug.WriteLine("globalHomeDirectory: '" + Properties.Settings.Default.globalHomeDirectory + "'");
             Debug.WriteLine("globalClientDirectory: '" + Properties.Settings.Default.globalClientDirectory + "'");
@@ -306,6 +319,9 @@ namespace FikaRunner
 
         public void showMainPanel(bool isSwitchingPlayerDir)
         {
+            btnOpenSettings.Image = Properties.Resources.settings;
+            btnOpenSettings.Cursor = Cursors.Hand;
+
             homeDir = currentEnv;
 
             if (isSwitchingPlayerDir)
@@ -1280,6 +1296,12 @@ namespace FikaRunner
         private void btnOpenSettings_MouseEnter(object sender, EventArgs e)
         {
             if (isServerRunning) return;
+            if (firstLaunch)
+            {
+                btnOpenSettings.Image = Properties.Resources.settings_selected;
+                return;
+            }
+
             btnOpenSettings.Image = Properties.Resources.settings_selected;
             settingsTitle.Visible = true;
         }
@@ -1287,6 +1309,12 @@ namespace FikaRunner
         private void btnOpenSettings_MouseLeave(object sender, EventArgs e)
         {
             if (isServerRunning) return;
+            if (firstLaunch)
+            {
+                btnOpenSettings.Image = Properties.Resources.settings_selected;
+                return;
+            }
+
             btnOpenSettings.Image = Properties.Resources.settings;
             settingsTitle.Visible = false;
         }
@@ -1294,6 +1322,7 @@ namespace FikaRunner
         private void btnOpenSettings_Click(object sender, EventArgs e)
         {
             if (isServerRunning) return;
+            if (firstLaunch) return;
             settingsForm frm = new settingsForm(this);
             frm.ShowDialog();
         }
