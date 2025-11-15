@@ -188,7 +188,7 @@ namespace FikaRunner
             else
             {
                 string content = "Critical SPT content was not detected in this game folder. Please place the launcher in a valid SPT game install and try again.";
-                
+
                 if (MessageBox.Show(content, "SPT-Fika Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                 {
                     Application.Exit();
@@ -197,13 +197,11 @@ namespace FikaRunner
 
             if (firstLaunch)
             {
-                btnOpenSettings.Cursor = Cursors.Default;
-                btnOpenSettings.Image = Properties.Resources.settings_selected;
+                toggleFeatures(false);
             }
             else
             {
-                btnOpenSettings.Cursor = Cursors.Hand;
-                btnOpenSettings.Image = Properties.Resources.settings;
+                toggleFeatures(true);
             }
 
             // debug only
@@ -319,9 +317,7 @@ namespace FikaRunner
 
         public void showMainPanel(bool isSwitchingPlayerDir)
         {
-            btnOpenSettings.Image = Properties.Resources.settings;
-            btnOpenSettings.Cursor = Cursors.Hand;
-
+            toggleFeatures(true);
             homeDir = currentEnv;
 
             if (isSwitchingPlayerDir)
@@ -341,6 +337,32 @@ namespace FikaRunner
             mainPanel.BringToFront();
 
             fetchProfiles();
+        }
+
+        public void toggleFeatures(bool enable)
+        {
+            if (!enable)
+            {
+                btnOpenSettings.Cursor = Cursors.Default;
+                btnOpenSettings.Image = Resources.settings_selected;
+
+                btnCopyOutput.Cursor = Cursors.Default;
+                btnCopyOutput.Image = Resources.copy_selected;
+
+                btnBrowseClientFolder.Cursor = Cursors.Default;
+                btnBrowseClientFolder.Image = Resources.player_selected;
+            }
+            else
+            {
+                btnOpenSettings.Cursor = Cursors.Hand;
+                btnOpenSettings.Image = Resources.settings;
+
+                btnCopyOutput.Cursor = Cursors.Hand;
+                btnCopyOutput.Image = Resources.copy;
+
+                btnBrowseClientFolder.Cursor = Cursors.Hand;
+                btnBrowseClientFolder.Image = Resources.player;
+            }
         }
 
         public void showProfileDropdown()
@@ -1329,11 +1351,7 @@ namespace FikaRunner
 
         private void btnCopyOutput_Click(object sender, EventArgs e)
         {
-            if (firstLaunch)
-            {
-                MessageBox.Show("This feature can only be used after getting through the first launch procedure. Please do so by browsing for a game folder.", "SPT-Fika Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            if (firstLaunch) return;
 
             if (consoleOutput.Text.Length > 0)
             {
@@ -1370,14 +1388,25 @@ namespace FikaRunner
 
         private void btnCopyOutput_MouseEnter(object sender, EventArgs e)
         {
+            if (firstLaunch)
+            {
+                btnCopyOutput.Image = Properties.Resources.copy_selected;
+                return;
+            }
+
             btnCopyOutput.Image = Properties.Resources.copy_selected;
             settingsCopyOutput.Visible = true;
         }
 
         private void btnCopyOutput_MouseLeave(object sender, EventArgs e)
         {
-            btnCopyOutput.Image = Properties.Resources.copy;
+            if (firstLaunch)
+            {
+                btnCopyOutput.Image = Properties.Resources.copy_selected;
+                return;
+            }
 
+            btnCopyOutput.Image = Properties.Resources.copy;
             settingsCopyOutput.Visible = false;
         }
 
@@ -1547,18 +1576,32 @@ namespace FikaRunner
 
         private void btnBrowseClientFolder_MouseEnter(object sender, EventArgs e)
         {
+            if (firstLaunch)
+            {
+                btnBrowseClientFolder.Image = Properties.Resources.player_selected;
+                return;
+            }
+
             btnBrowseClientFolder.Image = Properties.Resources.player_selected;
             settingsClient.Visible = true;
         }
 
         private void btnBrowseClientFolder_MouseLeave(object sender, EventArgs e)
         {
+            if (firstLaunch)
+            {
+                btnBrowseClientFolder.Image = Properties.Resources.player_selected;
+                return;
+            }
+
             btnBrowseClientFolder.Image = Properties.Resources.player;
             settingsClient.Visible = false;
         }
 
         private void btnBrowseClientFolder_Click(object sender, EventArgs e)
         {
+            if (firstLaunch) return;
+
             if (string.IsNullOrEmpty(playerDir))
             {
                 MessageBox.Show("No player game folder was detected, please restart the app or browse for a game folder.", "SPT-Fika Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1573,7 +1616,6 @@ namespace FikaRunner
             }
             catch (Exception ex)
             {
-
             }
         }
 
