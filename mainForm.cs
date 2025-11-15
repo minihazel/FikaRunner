@@ -24,7 +24,7 @@ namespace FikaRunner
     {
 
         // strings and lists
-        public static string? currentEnv = "D:\\SPT Iterations\\4.0.0 Host";
+        public static string? currentEnv = Environment.CurrentDirectory;
         public static string? playerDir = string.Empty;
         public static string? homeDir = string.Empty;
         public static string? selectedAID = string.Empty;
@@ -173,14 +173,35 @@ namespace FikaRunner
                         showMainPanel(false);
                     }
                 }
+                else
+                {
+                    string content = "Critical Fika content was not detected in this game folder. Please place the launcher in a valid SPT game install that has Fika and Headless installed in it, and try again.";
+
+                    if (MessageBox.Show(content, "SPT-Fika Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    {
+                        Application.Exit();
+                    }
+                }
+            }
+            else
+            {
+                string content = "Critical SPT content was not detected in this game folder. Please place the launcher in a valid SPT game install and try again.";
+                
+                if (MessageBox.Show(content, "SPT-Fika Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                {
+                    Application.Exit();
+                }
             }
 
+            // debug only
             Debug.WriteLine("globalHomeDirectory: '" + Properties.Settings.Default.globalHomeDirectory + "'");
             Debug.WriteLine("globalClientDirectory: '" + Properties.Settings.Default.globalClientDirectory + "'");
             Debug.WriteLine("lastProfile: '" + Properties.Settings.Default.lastProfile + "'");
             Debug.WriteLine("lastProfileName: '" + Properties.Settings.Default.lastProfileName + "'");
             Debug.WriteLine("currentPath: '" + Properties.Settings.Default.currentPath + "'");
             Debug.WriteLine("firstLaunch: '" + Properties.Settings.Default.firstLaunch + "'");
+            Debug.WriteLine("displayMode: '" + Properties.Settings.Default.displayMode + "'");
+            Debug.WriteLine("displayWarning: '" + Properties.Settings.Default.displayWarning + "'");
         }
 
         private void showFirstLaunch()
