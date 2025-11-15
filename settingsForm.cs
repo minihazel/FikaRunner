@@ -1,20 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
+using System.Drawing.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Timer = System.Windows.Forms.Timer;
 
 namespace FikaRunner
 {
-    public partial class settingsForm : Form
+    public partial class settingsForm : Form, IMessageFilter
     {
+        public static string currentConfigPath = Properties.Settings.Default.globalClientDirectory;
+        public string extendedConfigPath = string.Empty;
+        public static bool isDropdownOpen = false;
+        private int dropdownItemHeight = 40;
+        private int hoveredDropdownIndex = -1;
+        private List<string> displayModes = new List<string>
+        {
+            "Windowed", // 2
+            "Borderless Fullscreen", // 1
+            "Fullscreen" // -1
+        };
+
         public settingsForm()
         {
             InitializeComponent();
+            Application.AddMessageFilter(this);
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                null, dropdownDisplay, new object[] { true });
+        }
+
+        public bool PreFilterMessage(ref Message m)
+        {
+            // WM_LBUTTONDOWN = 0x0201 (left mouse button down)
+            if (m.Msg == 0x0201 && dropdownDisplay.Visible)
+            {
+                Point clickPos = dropdownDisplay.PointToClient(Cursor.Position);
+                if (!dropdownDisplay.ClientRectangle.Contains(clickPos))
+                {
+                    dropdownDisplay.Invalidate();
+                    dropdownDisplay.Visible = false;
+                    isDropdownOpen = false;
+                    return false; // allow message to continue
+                }
+            }
+
+            return false; // don't block any messages
         }
 
         private void settingsForm_Load(object sender, EventArgs e)
@@ -22,10 +53,12 @@ namespace FikaRunner
             if (string.IsNullOrEmpty(Properties.Settings.Default.globalClientDirectory))
             {
                 valuePlayerDir.Text = "Nothing detected, browse for a game directory";
+                btnDisplayMode.Enabled = false;
             }
             else
             {
                 valuePlayerDir.Text = Properties.Settings.Default.globalClientDirectory;
+                btnDisplayMode.Enabled = true;
             }
 
             if (string.IsNullOrEmpty(Properties.Settings.Default.globalHomeDirectory))
@@ -47,17 +80,21 @@ namespace FikaRunner
                 valueProfile.Tag = Properties.Settings.Default.lastProfile;
             }
 
+            string displayModeSetting = Properties.Settings.Default.displayMode;
+            btnDisplayMode.Text = "> " + displayModeSetting;
+
+            extendedConfigPath = Path.Join(currentConfigPath, "SPT", "user", "sptSettings", "Graphics.ini");
             lblPlayerDir.Select();
         }
 
         private void btnClearPlayerDir_MouseEnter(object sender, EventArgs e)
         {
-            btnClearPlayerDir.Image = Properties.Resources.bin_selected;
+
         }
 
         private void btnClearPlayerDir_MouseLeave(object sender, EventArgs e)
         {
-            btnClearPlayerDir.Image = Properties.Resources.bin;
+
         }
 
         private void btnClearHomeDir_MouseEnter(object sender, EventArgs e)
@@ -87,12 +124,12 @@ namespace FikaRunner
 
         private void btnBrowseHomeDir_MouseEnter(object sender, EventArgs e)
         {
-            btnBrowseHomeDir.Image = Properties.Resources.browse_selected;
+
         }
 
         private void btnBrowseHomeDir_MouseLeave(object sender, EventArgs e)
         {
-            btnBrowseHomeDir.Image = Properties.Resources.browse;
+
         }
 
         private void btnBrowsePlayerDir_Click(object sender, EventArgs e)
@@ -123,6 +160,185 @@ namespace FikaRunner
             }
 
             return;
+        }
+
+        private void btnDisplayMode_Click(object sender, EventArgs e)
+        {
+            if (!isDropdownOpen)
+            {
+                showProfileDropdown();
+            }
+            else
+            {
+                closeProfileDropdown();
+            }
+        }
+
+        public void showProfileDropdown()
+        {
+            dropdownDisplay.Size = new Size(dropdownDisplay.Width, dropdownItemHeight * displayModes.Count);
+            dropdownDisplay.Refresh();
+            dropdownDisplay.Visible = true;
+            isDropdownOpen = true;
+        }
+
+        public void closeProfileDropdown()
+        {
+            dropdownDisplay.Invalidate();
+            dropdownDisplay.Visible = false;
+            isDropdownOpen = false;
+        }
+
+        private void dropdownDisplay_Paint(object sender, PaintEventArgs e)
+        {
+            if (!isDropdownOpen) return;
+            Panel panel = (Panel)sender;
+
+            Graphics g = e.Graphics;
+            g.Clear(Color.FromArgb(28, 30, 32));
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+
+            for (int i = 0; i < displayModes.Count; i++)
+            {
+                Rectangle itemRect = new Rectangle(-1, i * dropdownItemHeight, panel.Width + 1, dropdownItemHeight);
+
+                bool isHovered = (i == hoveredDropdownIndex);
+
+                // bg
+                Color backColor = isHovered ? Color.FromArgb(40, 42, 44) : Color.FromArgb(28, 30, 32);
+                using (Brush backBrush = new SolidBrush(backColor))
+                {
+                    g.FillRectangle(backBrush, itemRect);
+                }
+
+                // text
+                using (Brush textBrush = new SolidBrush(Color.Silver))
+                using (Font font = new Font("Bender", 11, FontStyle.Bold))
+                {
+                    StringFormat sf = new StringFormat
+                    {
+                        LineAlignment = StringAlignment.Center,
+                        Alignment = StringAlignment.Near
+                    };
+
+                    g.DrawString(displayModes[i], font, textBrush,
+                                new RectangleF(itemRect.X + 10, itemRect.Y, itemRect.Width - 10, itemRect.Height), sf);
+                }
+            }
+        }
+
+        private void dropdownDisplay_MouseMove(object sender, MouseEventArgs e)
+        {
+            Panel panel = (Panel)sender;
+            int index = e.Y / dropdownItemHeight;
+
+            if (index >= 0 && index < displayModes.Count)
+            {
+                if (hoveredDropdownIndex != index)
+                {
+                    hoveredDropdownIndex = index;
+                    panel.Invalidate();
+                }
+            }
+        }
+
+        private void dropdownDisplay_MouseLeave(object sender, EventArgs e)
+        {
+            Panel panel = (Panel)sender;
+
+            if (hoveredDropdownIndex != -1)
+            {
+                hoveredDropdownIndex = -1;
+                panel.Invalidate();
+            }
+        }
+
+        private void dropdownDisplay_MouseClick(object sender, MouseEventArgs e)
+        {
+            Panel panel = (Panel)sender;
+            int index = e.Y / dropdownItemHeight;
+
+            if (index >= 0 && index < displayModes.Count)
+            {
+                displayModeSelected(index);
+            }
+        }
+
+        private void displayModeSelected(int index)
+        {
+            string selectedItem = displayModes[index];
+            closeProfileDropdown();
+
+            btnDisplayMode.Text = "> " + selectedItem;
+            Properties.Settings.Default.displayMode = selectedItem;
+            Properties.Settings.Default.Save();
+
+            alterConfigSettings(selectedItem);
+        }
+
+        private void alterConfigSettings(string item)
+        {
+            bool doesGraphicsConfigExist = File.Exists(extendedConfigPath);
+            if (doesGraphicsConfigExist)
+            {
+                string rawContent = File.ReadAllText(extendedConfigPath);
+                JObject root = JObject.Parse(rawContent);
+
+                if (root == null)
+                {
+                    Debug.WriteLine("`root` JObject was null");
+                    return;
+                }
+
+                if (root["DisplaySettings"] == null)
+                {
+                    Debug.WriteLine("`DisplaySettings` section was null");
+                    return;
+                }
+
+                if (root["DisplaySettings"] is JObject displaySettings)
+                {
+                    if (displaySettings["FullScreenMode"] == null)
+                    {
+                        Debug.WriteLine("`FullScreenMode` setting was null");
+                        return;
+                    }
+
+                    string selectedMode = btnDisplayMode.Text.Replace("> ", "");
+                    int newModeValue = selectedMode switch
+                    {
+                        "Windowed" => 2,
+                        "Borderless Fullscreen" => 0,
+                        "Fullscreen" => -1,
+                        _ => 2
+                    };
+
+                    try
+                    {
+                        displaySettings["FullScreenMode"] = newModeValue;
+
+                        string? modifiedJson = JsonConvert.SerializeObject(root, Formatting.Indented);
+                        File.WriteAllText(extendedConfigPath, modifiedJson);
+
+                        statusConfirmed.Visible = true;
+                        Timer tmr = new Timer();
+                        tmr.Interval = 1000;
+                        tmr.Tick += (s, args) =>
+                        {
+                            statusConfirmed.Visible = false;
+                            tmr.Stop();
+                            tmr.Dispose();
+                        };
+                        tmr.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Error parsing `FullScreenMode` value: " + ex.Message);
+                        return;
+                    }
+                }
+            }
         }
     }
 }

@@ -70,6 +70,7 @@
             panelInstruction = new Panel();
             imgInstruction = new PictureBox();
             label2 = new Label();
+            statusConfirmed = new Label();
             topPanel.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnBrowseClientFolder).BeginInit();
@@ -92,6 +93,7 @@
             // topPanel
             // 
             topPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            topPanel.Controls.Add(statusConfirmed);
             topPanel.Controls.Add(settingsClient);
             topPanel.Controls.Add(settingsCopyOutput);
             topPanel.Controls.Add(clientTitle);
@@ -591,6 +593,18 @@
             label2.Text = "First game launch detected";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // statusConfirmed
+            // 
+            statusConfirmed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            statusConfirmed.Font = new Font("Bahnschrift", 8F, FontStyle.Bold);
+            statusConfirmed.Location = new Point(570, 18);
+            statusConfirmed.Name = "statusConfirmed";
+            statusConfirmed.Size = new Size(37, 22);
+            statusConfirmed.TabIndex = 7;
+            statusConfirmed.Text = "✔️";
+            statusConfirmed.TextAlign = ContentAlignment.MiddleCenter;
+            statusConfirmed.Visible = false;
+            // 
             // mainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 18F);
@@ -673,5 +687,6 @@
         private Panel panel4;
         private Label settingsClient;
         private Label statusInvalidProfile;
+        private Label statusConfirmed;
     }
 }

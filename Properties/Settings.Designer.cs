@@ -94,5 +94,17 @@ namespace FikaRunner.Properties {
                 this["lastProfileName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Windowed")]
+        public string displayMode {
+            get {
+                return ((string)(this["displayMode"]));
+            }
+            set {
+                this["displayMode"] = value;
+            }
+        }
     }
 }

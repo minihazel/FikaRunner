@@ -30,38 +30,62 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(settingsForm));
             panel1 = new Panel();
+            label2 = new Label();
+            label1 = new Label();
             lblHomeDir = new Label();
             lblPlayerDir = new Label();
-            panel2 = new Panel();
-            btnBrowseHomeDir = new PictureBox();
+            rightPanel = new Panel();
+            btnDisplayMode = new Button();
+            dropdownDisplay = new Panel();
+            valueProfile = new TextBox();
             valueHomeDir = new TextBox();
             btnBrowsePlayerDir = new PictureBox();
             btnClearHomeDir = new PictureBox();
             valuePlayerDir = new TextBox();
-            btnClearPlayerDir = new PictureBox();
-            valueProfile = new TextBox();
-            label1 = new Label();
+            statusConfirmed = new Label();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)btnBrowseHomeDir).BeginInit();
+            rightPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnBrowsePlayerDir).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnClearHomeDir).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnClearPlayerDir).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(lblHomeDir);
             panel1.Controls.Add(lblPlayerDir);
             panel1.Location = new Point(12, 54);
             panel1.Name = "panel1";
-            panel1.Size = new Size(159, 264);
+            panel1.Size = new Size(159, 347);
             panel1.TabIndex = 0;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            label2.Font = new Font("Bender", 11F, FontStyle.Bold);
+            label2.Location = new Point(3, 166);
+            label2.Name = "label2";
+            label2.Size = new Size(153, 26);
+            label2.TabIndex = 3;
+            label2.Text = "Game display mode";
+            label2.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            label1.Font = new Font("Bender", 11F, FontStyle.Bold);
+            label1.Location = new Point(3, 116);
+            label1.Name = "label1";
+            label1.Size = new Size(153, 26);
+            label1.TabIndex = 2;
+            label1.Text = "Active profile";
+            label1.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lblHomeDir
             // 
             lblHomeDir.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblHomeDir.Font = new Font("Bender", 11F, FontStyle.Bold);
             lblHomeDir.Location = new Point(6, 76);
             lblHomeDir.Name = "lblHomeDir";
             lblHomeDir.Size = new Size(150, 26);
@@ -72,6 +96,7 @@
             // lblPlayerDir
             // 
             lblPlayerDir.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblPlayerDir.Font = new Font("Bender", 11F, FontStyle.Bold);
             lblPlayerDir.Location = new Point(3, 10);
             lblPlayerDir.Name = "lblPlayerDir";
             lblPlayerDir.Size = new Size(153, 26);
@@ -79,43 +104,74 @@
             lblPlayerDir.Text = "Player directory";
             lblPlayerDir.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // panel2
+            // rightPanel
             // 
-            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel2.Controls.Add(valueProfile);
-            panel2.Controls.Add(btnBrowseHomeDir);
-            panel2.Controls.Add(valueHomeDir);
-            panel2.Controls.Add(btnBrowsePlayerDir);
-            panel2.Controls.Add(btnClearHomeDir);
-            panel2.Controls.Add(valuePlayerDir);
-            panel2.Controls.Add(btnClearPlayerDir);
-            panel2.Location = new Point(177, 54);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(426, 264);
-            panel2.TabIndex = 1;
+            rightPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            rightPanel.Controls.Add(statusConfirmed);
+            rightPanel.Controls.Add(btnDisplayMode);
+            rightPanel.Controls.Add(dropdownDisplay);
+            rightPanel.Controls.Add(valueProfile);
+            rightPanel.Controls.Add(valueHomeDir);
+            rightPanel.Controls.Add(btnBrowsePlayerDir);
+            rightPanel.Controls.Add(btnClearHomeDir);
+            rightPanel.Controls.Add(valuePlayerDir);
+            rightPanel.Location = new Point(177, 54);
+            rightPanel.Name = "rightPanel";
+            rightPanel.Size = new Size(426, 347);
+            rightPanel.TabIndex = 1;
             // 
-            // btnBrowseHomeDir
+            // btnDisplayMode
             // 
-            btnBrowseHomeDir.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnBrowseHomeDir.Cursor = Cursors.Hand;
-            btnBrowseHomeDir.Image = Properties.Resources.browse;
-            btnBrowseHomeDir.Location = new Point(325, 108);
-            btnBrowseHomeDir.Name = "btnBrowseHomeDir";
-            btnBrowseHomeDir.Size = new Size(20, 20);
-            btnBrowseHomeDir.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnBrowseHomeDir.TabIndex = 9;
-            btnBrowseHomeDir.TabStop = false;
-            btnBrowseHomeDir.Visible = false;
-            btnBrowseHomeDir.MouseEnter += btnBrowseHomeDir_MouseEnter;
-            btnBrowseHomeDir.MouseLeave += btnBrowseHomeDir_MouseLeave;
+            btnDisplayMode.Cursor = Cursors.Hand;
+            btnDisplayMode.FlatAppearance.BorderColor = SystemColors.WindowFrame;
+            btnDisplayMode.FlatStyle = FlatStyle.Flat;
+            btnDisplayMode.Font = new Font("Bender", 14F);
+            btnDisplayMode.ForeColor = Color.DarkOrange;
+            btnDisplayMode.Image = Properties.Resources.btn_art;
+            btnDisplayMode.ImageAlign = ContentAlignment.MiddleLeft;
+            btnDisplayMode.Location = new Point(3, 157);
+            btnDisplayMode.Name = "btnDisplayMode";
+            btnDisplayMode.Padding = new Padding(5, 0, 0, 0);
+            btnDisplayMode.Size = new Size(292, 44);
+            btnDisplayMode.TabIndex = 11;
+            btnDisplayMode.Text = "> Windowed";
+            btnDisplayMode.TextAlign = ContentAlignment.MiddleLeft;
+            btnDisplayMode.UseVisualStyleBackColor = true;
+            btnDisplayMode.Click += btnDisplayMode_Click;
+            // 
+            // dropdownDisplay
+            // 
+            dropdownDisplay.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            dropdownDisplay.Cursor = Cursors.Hand;
+            dropdownDisplay.Font = new Font("Bender", 11F, FontStyle.Bold);
+            dropdownDisplay.Location = new Point(3, 201);
+            dropdownDisplay.Name = "dropdownDisplay";
+            dropdownDisplay.Size = new Size(292, 133);
+            dropdownDisplay.TabIndex = 12;
+            dropdownDisplay.Visible = false;
+            dropdownDisplay.Paint += dropdownDisplay_Paint;
+            dropdownDisplay.MouseClick += dropdownDisplay_MouseClick;
+            dropdownDisplay.MouseLeave += dropdownDisplay_MouseLeave;
+            dropdownDisplay.MouseMove += dropdownDisplay_MouseMove;
+            // 
+            // valueProfile
+            // 
+            valueProfile.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            valueProfile.Font = new Font("Bender", 11F, FontStyle.Bold);
+            valueProfile.Location = new Point(3, 117);
+            valueProfile.Name = "valueProfile";
+            valueProfile.ReadOnly = true;
+            valueProfile.Size = new Size(368, 24);
+            valueProfile.TabIndex = 10;
             // 
             // valueHomeDir
             // 
             valueHomeDir.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            valueHomeDir.Font = new Font("Bender", 11F, FontStyle.Bold);
             valueHomeDir.Location = new Point(3, 77);
             valueHomeDir.Name = "valueHomeDir";
             valueHomeDir.ReadOnly = true;
-            valueHomeDir.Size = new Size(368, 25);
+            valueHomeDir.Size = new Size(368, 24);
             valueHomeDir.TabIndex = 1;
             // 
             // btnBrowsePlayerDir
@@ -150,54 +206,32 @@
             // valuePlayerDir
             // 
             valuePlayerDir.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            valuePlayerDir.Font = new Font("Bender", 11F, FontStyle.Bold);
             valuePlayerDir.Location = new Point(3, 11);
             valuePlayerDir.Name = "valuePlayerDir";
             valuePlayerDir.ReadOnly = true;
-            valuePlayerDir.Size = new Size(368, 25);
+            valuePlayerDir.Size = new Size(368, 24);
             valuePlayerDir.TabIndex = 0;
             // 
-            // btnClearPlayerDir
+            // statusConfirmed
             // 
-            btnClearPlayerDir.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnClearPlayerDir.Cursor = Cursors.Hand;
-            btnClearPlayerDir.Image = Properties.Resources.bin;
-            btnClearPlayerDir.Location = new Point(351, 108);
-            btnClearPlayerDir.Name = "btnClearPlayerDir";
-            btnClearPlayerDir.Size = new Size(20, 20);
-            btnClearPlayerDir.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnClearPlayerDir.TabIndex = 6;
-            btnClearPlayerDir.TabStop = false;
-            btnClearPlayerDir.Visible = false;
-            btnClearPlayerDir.Click += btnClearPlayerDir_Click;
-            btnClearPlayerDir.MouseEnter += btnClearPlayerDir_MouseEnter;
-            btnClearPlayerDir.MouseLeave += btnClearPlayerDir_MouseLeave;
-            // 
-            // valueProfile
-            // 
-            valueProfile.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            valueProfile.Location = new Point(3, 143);
-            valueProfile.Name = "valueProfile";
-            valueProfile.ReadOnly = true;
-            valueProfile.Size = new Size(368, 25);
-            valueProfile.TabIndex = 10;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label1.Location = new Point(3, 142);
-            label1.Name = "label1";
-            label1.Size = new Size(153, 26);
-            label1.TabIndex = 2;
-            label1.Text = "Active profile";
-            label1.TextAlign = ContentAlignment.MiddleRight;
+            statusConfirmed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            statusConfirmed.Font = new Font("Bahnschrift", 14F);
+            statusConfirmed.Location = new Point(310, 160);
+            statusConfirmed.Name = "statusConfirmed";
+            statusConfirmed.Size = new Size(35, 35);
+            statusConfirmed.TabIndex = 13;
+            statusConfirmed.Text = "✔️";
+            statusConfirmed.TextAlign = ContentAlignment.MiddleCenter;
+            statusConfirmed.Visible = false;
             // 
             // settingsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(38, 41, 44);
-            ClientSize = new Size(615, 373);
-            Controls.Add(panel2);
+            ClientSize = new Size(615, 413);
+            Controls.Add(rightPanel);
             Controls.Add(panel1);
             Font = new Font("Bahnschrift", 11F);
             ForeColor = Color.Silver;
@@ -210,12 +244,10 @@
             Text = "Settings";
             Load += settingsForm_Load;
             panel1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)btnBrowseHomeDir).EndInit();
+            rightPanel.ResumeLayout(false);
+            rightPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnBrowsePlayerDir).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnClearHomeDir).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnClearPlayerDir).EndInit();
             ResumeLayout(false);
         }
 
@@ -223,15 +255,17 @@
 
         private Panel panel1;
         private Label lblPlayerDir;
-        private Panel panel2;
+        private Panel rightPanel;
         private Label lblHomeDir;
         private TextBox valuePlayerDir;
         private TextBox valueHomeDir;
-        private PictureBox btnClearPlayerDir;
         private PictureBox btnClearHomeDir;
         private PictureBox btnBrowsePlayerDir;
-        private PictureBox btnBrowseHomeDir;
         private TextBox valueProfile;
         private Label label1;
+        private Label label2;
+        private Button btnDisplayMode;
+        private Panel dropdownDisplay;
+        private Label statusConfirmed;
     }
 }

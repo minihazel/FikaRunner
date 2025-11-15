@@ -20,5 +20,8 @@
     <Setting Name="lastProfileName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="displayMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Windowed</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

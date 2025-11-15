@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Timer = System.Windows.Forms.Timer;
 
 namespace FikaRunner
 {
@@ -485,15 +486,20 @@ namespace FikaRunner
                     }
                 }
 
-                fikaClientProcess.WaitForExit();
+                if (fikaClientProcess != null)
+                    fikaClientProcess.WaitForExit();
             }
             catch (Exception ex)
             {
             }
             finally
             {
-                fikaClientProcess.Dispose();
-                fikaClientProcess = null;
+                if (fikaClientProcess != null)
+                {
+
+                    fikaClientProcess.Dispose();
+                    fikaClientProcess = null;
+                }
             }
         }
 
@@ -528,6 +534,12 @@ namespace FikaRunner
                     playerClientProcess = null;
                 }
             }
+
+            if (playerEndDetectWorker != null)
+            {
+                playerEndDetectWorker.Dispose();
+                playerEndDetectWorker = null;
+            }
         }
 
         private async Task terminateAllProcesses()
@@ -535,6 +547,19 @@ namespace FikaRunner
             await terminateSPTServer();
             await terminateFikaClientGracefully();
             await terminatePlayerClient();
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    preStartReset();
+                }));
+            }
+            else
+            {
+                preStartReset();
+            }
+
         }
 
         private Process startPlayerClientProcess()
@@ -557,7 +582,6 @@ namespace FikaRunner
             playerClientProcess = new Process();
             playerClientProcess.StartInfo = _playerClientProcess;
             playerClientProcess.EnableRaisingEvents = true;
-            playerClientProcess.Exited += playerClient_Exited;
 
             try
             {
@@ -577,7 +601,7 @@ namespace FikaRunner
             string ipAddress = "127.0.0.1";
 
             string args = $"-token={fikaHeadlessAID} " +
-                $"-config={{'BackendUrl':'https://{ipAddress}:{port}','Version':'live','MatchingVersion':'live'}}";
+                $"-config={{'BackendUrl':'https://{ipAddress}:{port}','Version':'live','MatchingVersion':'live'}} -nographics -batchmode";
 
             ProcessStartInfo? _fikaClientProcess = new ProcessStartInfo();
             _fikaClientProcess.FileName = Path.Join(currentEnv, "EscapeFromTarkov.exe");
@@ -838,6 +862,20 @@ namespace FikaRunner
             Debug.WriteLine("success 2");
         }
 
+        private void preStartReset()
+        {
+            btnBrowseClient.Enabled = true;
+            consoleOutput.Clear();
+            isServerRunning = false;
+
+            sptServerProcess = null;
+            fikaClientProcess = null;
+            playerClientProcess = null;
+            checkServerWorker = null;
+            fikaEndDetectWorker = null;
+            playerEndDetectWorker = null;
+        }
+
         private void printServerData(string data)
         {
             string res = data;
@@ -860,35 +898,6 @@ namespace FikaRunner
             if (sptServerProcess == null) return;
             if (serverNotifyIcon == null) return;
 
-            int exitCode = sptServerProcess.ExitCode;
-            string title;
-            string message;
-            ToolTipIcon icon;
-
-            if (exitCode == 0)
-            {
-                title = "Server Shutdown";
-                message = "The game server closed successfully.";
-                icon = ToolTipIcon.Info;
-            }
-            else
-            {
-                title = "Server crashed!";
-                message = $"Unexpected termination (Code: {exitCode}). See logs for details.";
-                icon = ToolTipIcon.Error;
-            }
-
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(() =>
-                {
-                    serverNotifyIcon.BalloonTipTitle = title;
-                    serverNotifyIcon.BalloonTipText = message;
-                    serverNotifyIcon.BalloonTipIcon = icon;
-                    serverNotifyIcon.ShowBalloonTip(5000);
-                }));
-            }
-
             sptServerProcess.Dispose();
         }
 
@@ -896,10 +905,7 @@ namespace FikaRunner
         {
             if (e.Data != null)
             {
-                this.Invoke(new Action(() =>
-                {
-                    printServerData(e.Data);
-                }));
+                printServerData(e.Data);
             }
         }
 
@@ -968,88 +974,23 @@ namespace FikaRunner
         {
             if (e.Cancelled)
             {
-                string title = "Server stopped";
-                string message = "Cancellation was requested.";
-                ToolTipIcon icon = ToolTipIcon.Info;
-                if (serverNotifyIcon == null) return;
-
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        serverNotifyIcon.BalloonTipTitle = title;
-                        serverNotifyIcon.BalloonTipText = message;
-                        serverNotifyIcon.BalloonTipIcon = icon;
-                        serverNotifyIcon.ShowBalloonTip(5000);
-                    }));
-                }
-
                 // cancellation was requested
                 Debug.WriteLine("Server check canceled.");
             }
             else if (e.Error != null)
             {
                 // exception occurred during DoWork
-                
-                string title = "Server exception occurred";
-                string message = "An error occurred with SPT's Server application.";
-                ToolTipIcon icon = ToolTipIcon.Info;
-                if (serverNotifyIcon == null) return;
-
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        serverNotifyIcon.BalloonTipTitle = title;
-                        serverNotifyIcon.BalloonTipText = message;
-                        serverNotifyIcon.BalloonTipIcon = icon;
-                        serverNotifyIcon.ShowBalloonTip(5000);
-                    }));
-                }
-
                 Debug.WriteLine("Server check failed with an unhandled error: " + e.Error.ToString());
                 terminateAllProcesses();
             }
             else if (e.Result != null && e.Result.ToString() == "Timeout")
             {
                 // shut down on timeout
-
-                string title = "Server timed out";
-                string message = "Server timed out and we could not detect any signal after 5 minutes.";
-                ToolTipIcon icon = ToolTipIcon.Info;
-                if (serverNotifyIcon == null) return;
-
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        serverNotifyIcon.BalloonTipTitle = title;
-                        serverNotifyIcon.BalloonTipText = message;
-                        serverNotifyIcon.BalloonTipIcon = icon;
-                        serverNotifyIcon.ShowBalloonTip(5000);
-                    }));
-                }
-
                 Debug.WriteLine("Server did not become ready within the timeout period.");
                 terminateAllProcesses();
             }
             else
             {
-                string title = "Launching...";
-                string message = "Single-Player Tarkov is launching!";
-                ToolTipIcon icon = ToolTipIcon.Info;
-                if (serverNotifyIcon == null) return;
-
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        serverNotifyIcon.BalloonTipTitle = title;
-                        serverNotifyIcon.BalloonTipText = message;
-                        serverNotifyIcon.BalloonTipIcon = icon;
-                        serverNotifyIcon.ShowBalloonTip(5000);
-                    }));
-                }
                 Debug.WriteLine("server ready and clients launched");
             }
 
@@ -1118,9 +1059,11 @@ namespace FikaRunner
 
         private void playerEndDetectWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            if (worker == null) return;
+            if (playerEndDetectWorker == null)
+            {
+                Debug.WriteLine("playerEndDetectWorker null in DoWork");
+                return;
+            }
 
             if (playerClientProcess == null)
             {
@@ -1128,7 +1071,7 @@ namespace FikaRunner
                 return;
             }
 
-            while (!worker.CancellationPending)
+            while (!playerEndDetectWorker.CancellationPending)
             {
                 try
                 {
@@ -1149,15 +1092,11 @@ namespace FikaRunner
             }
         }
 
-        public void playerEndDetectWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        public async void playerEndDetectWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (playerEndDetectWorker == null) return;
-            playerEndDetectWorker.Dispose();
-
             if (e.Result != null && (e.Result.ToString() == "PlayerExited" || e.Result.ToString() == "ProcessReferenceMissing"))
             {
-                WindowState = FormWindowState.Normal;
-                terminateAllProcesses();
+                await terminateAllProcesses();
             }
         }
 
@@ -1190,18 +1129,6 @@ namespace FikaRunner
 
             fikaEndDetectWorker.Dispose();
             fikaEndDetectWorker = null;
-        }
-
-        private void playerClient_Exited(object sender, EventArgs e)
-        {
-            if (playerClientProcess != null)
-            {
-                playerClientProcess.Dispose();
-                playerClientProcess = null;
-            }
-
-            consoleOutput.Clear();
-            btnBrowseClient.Enabled = true;
         }
 
         private void fikaClient_Exited(object sender, EventArgs e)
@@ -1269,6 +1196,17 @@ namespace FikaRunner
             {
                 string textToCopy = consoleOutput.Text;
                 Clipboard.SetText(textToCopy);
+                statusConfirmed.Visible = true;
+
+                Timer tmr = new Timer();
+                tmr.Interval = 2000;
+                tmr.Tick += (s, args) =>
+                {
+                    statusConfirmed.Visible = false;
+                    tmr.Stop();
+                    tmr.Dispose();
+                };
+                tmr.Start();
             }
 
             /*
@@ -1374,18 +1312,18 @@ namespace FikaRunner
 
             for (int i = 0; i < profileNames.Count; i++)
             {
-                Rectangle itemRect = new Rectangle(0, i * dropdownItemHeight, panel.Width, dropdownItemHeight);
+                Rectangle itemRect = new Rectangle(-1, i * dropdownItemHeight, panel.Width + 1, dropdownItemHeight);
 
                 bool isHovered = (i == hoveredDropdownIndex);
 
-                // Background
+                // bg
                 Color backColor = isHovered ? Color.FromArgb(40, 42, 44) : Color.FromArgb(28, 30, 32);
                 using (Brush backBrush = new SolidBrush(backColor))
                 {
                     g.FillRectangle(backBrush, itemRect);
                 }
 
-                // Text
+                // text
                 using (Brush textBrush = new SolidBrush(Color.Silver))
                 using (Font font = new Font("Bender", 11, FontStyle.Bold))
                 {
@@ -1398,17 +1336,6 @@ namespace FikaRunner
                     g.DrawString(profileNames[i], font, textBrush,
                                 new RectangleF(itemRect.X + 10, itemRect.Y, itemRect.Width - 10, itemRect.Height), sf);
                 }
-
-                // Optional: Draw separator line
-                /*
-                if (i < profileNames.Count - 1)
-                {
-                    using (Pen separatorPen = new Pen(Color.FromArgb(40, 42, 44)))
-                    {
-                        g.DrawLine(separatorPen, 0, (i + 1) * dropdownItemHeight - 1, panel.Width, (i + 1) * dropdownItemHeight - 1);
-                    }
-                }
-                */
             }
         }
 
