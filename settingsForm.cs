@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Drawing.Text;
+using FikaRunner.Properties;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Timer = System.Windows.Forms.Timer;
@@ -337,6 +338,32 @@ namespace FikaRunner
                         Debug.WriteLine("Error parsing `FullScreenMode` value: " + ex.Message);
                         return;
                     }
+                }
+            }
+        }
+
+        private void btnResetSettings_MouseEnter(object sender, EventArgs e)
+        {
+            btnResetSettings.Image = Properties.Resources.reset_selected;
+        }
+
+        private void btnResetSettings_MouseLeave(object sender, EventArgs e)
+        {
+            btnResetSettings.Image = Properties.Resources.reset;
+        }
+
+        private void btnResetSettings_Click(object sender, EventArgs e)
+        {
+            string content = "Are you sure you want to reset all the in-app settings? This action is irreversible.";
+
+            if (MessageBox.Show(content, Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                Properties.Settings.Default.Reset();
+                string nextContent = "All settings have been reset. The launcher will now restart for changes to take effect.";
+
+                if (MessageBox.Show(nextContent, Text, MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+                {
+                    Application.Restart();
                 }
             }
         }

@@ -417,8 +417,8 @@
             panelPlayerProfile.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             panelPlayerProfile.Controls.Add(btnPlayerProfile);
             panelPlayerProfile.Controls.Add(lblPlayerProfile);
-            panelPlayerProfile.Controls.Add(panelProfileInfo);
             panelPlayerProfile.Controls.Add(dropdownList);
+            panelPlayerProfile.Controls.Add(panelProfileInfo);
             panelPlayerProfile.Font = new Font("Bender", 14F);
             panelPlayerProfile.Location = new Point(508, 3);
             panelPlayerProfile.Name = "panelPlayerProfile";

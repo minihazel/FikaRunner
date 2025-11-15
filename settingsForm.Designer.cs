@@ -35,6 +35,8 @@
             lblHomeDir = new Label();
             lblPlayerDir = new Label();
             rightPanel = new Panel();
+            btnResetSettings = new PictureBox();
+            statusConfirmed = new Label();
             btnDisplayMode = new Button();
             dropdownDisplay = new Panel();
             valueProfile = new TextBox();
@@ -42,9 +44,9 @@
             btnBrowsePlayerDir = new PictureBox();
             btnClearHomeDir = new PictureBox();
             valuePlayerDir = new TextBox();
-            statusConfirmed = new Label();
             panel1.SuspendLayout();
             rightPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)btnResetSettings).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnBrowsePlayerDir).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnClearHomeDir).BeginInit();
             SuspendLayout();
@@ -107,6 +109,7 @@
             // rightPanel
             // 
             rightPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            rightPanel.Controls.Add(btnResetSettings);
             rightPanel.Controls.Add(statusConfirmed);
             rightPanel.Controls.Add(btnDisplayMode);
             rightPanel.Controls.Add(dropdownDisplay);
@@ -119,6 +122,33 @@
             rightPanel.Name = "rightPanel";
             rightPanel.Size = new Size(426, 347);
             rightPanel.TabIndex = 1;
+            // 
+            // btnResetSettings
+            // 
+            btnResetSettings.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnResetSettings.Cursor = Cursors.Hand;
+            btnResetSettings.Image = Properties.Resources.reset;
+            btnResetSettings.Location = new Point(341, 304);
+            btnResetSettings.Name = "btnResetSettings";
+            btnResetSettings.Size = new Size(30, 30);
+            btnResetSettings.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnResetSettings.TabIndex = 14;
+            btnResetSettings.TabStop = false;
+            btnResetSettings.Click += btnResetSettings_Click;
+            btnResetSettings.MouseEnter += btnResetSettings_MouseEnter;
+            btnResetSettings.MouseLeave += btnResetSettings_MouseLeave;
+            // 
+            // statusConfirmed
+            // 
+            statusConfirmed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            statusConfirmed.Font = new Font("Bahnschrift", 14F);
+            statusConfirmed.Location = new Point(310, 160);
+            statusConfirmed.Name = "statusConfirmed";
+            statusConfirmed.Size = new Size(35, 35);
+            statusConfirmed.TabIndex = 13;
+            statusConfirmed.Text = "✔️";
+            statusConfirmed.TextAlign = ContentAlignment.MiddleCenter;
+            statusConfirmed.Visible = false;
             // 
             // btnDisplayMode
             // 
@@ -213,18 +243,6 @@
             valuePlayerDir.Size = new Size(368, 24);
             valuePlayerDir.TabIndex = 0;
             // 
-            // statusConfirmed
-            // 
-            statusConfirmed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            statusConfirmed.Font = new Font("Bahnschrift", 14F);
-            statusConfirmed.Location = new Point(310, 160);
-            statusConfirmed.Name = "statusConfirmed";
-            statusConfirmed.Size = new Size(35, 35);
-            statusConfirmed.TabIndex = 13;
-            statusConfirmed.Text = "✔️";
-            statusConfirmed.TextAlign = ContentAlignment.MiddleCenter;
-            statusConfirmed.Visible = false;
-            // 
             // settingsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 18F);
@@ -246,6 +264,7 @@
             panel1.ResumeLayout(false);
             rightPanel.ResumeLayout(false);
             rightPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)btnResetSettings).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnBrowsePlayerDir).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnClearHomeDir).EndInit();
             ResumeLayout(false);
@@ -267,5 +286,6 @@
         private Button btnDisplayMode;
         private Panel dropdownDisplay;
         private Label statusConfirmed;
+        private PictureBox btnResetSettings;
     }
 }
