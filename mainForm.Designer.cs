@@ -58,7 +58,7 @@
             btnPlayerProfile = new Button();
             lblPlayerProfile = new Label();
             panelProfileInfo = new Panel();
-            statusInvalidProfile = new Label();
+            statusCharacterLevel = new Label();
             profileSeparator3 = new Panel();
             statusGameEdition = new Label();
             profileSeparator2 = new Panel();
@@ -71,6 +71,8 @@
             panelInstruction = new Panel();
             imgInstruction = new PictureBox();
             label2 = new Label();
+            label4 = new Label();
+            panel5 = new Panel();
             topPanel.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnBrowseClientFolder).BeginInit();
@@ -350,7 +352,7 @@
             mainPanel.Controls.Add(panelPlayerProfile);
             mainPanel.Location = new Point(12, 135);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(825, 381);
+            mainPanel.Size = new Size(825, 401);
             mainPanel.TabIndex = 1;
             // 
             // outputPanel
@@ -361,7 +363,7 @@
             outputPanel.Controls.Add(consoleOutput);
             outputPanel.Location = new Point(3, 26);
             outputPanel.Name = "outputPanel";
-            outputPanel.Size = new Size(489, 346);
+            outputPanel.Size = new Size(489, 366);
             outputPanel.TabIndex = 1;
             // 
             // consoleOutput
@@ -407,7 +409,7 @@
             consoleOutput.SelectionColor = Color.FromArgb(60, 192, 192, 192);
             consoleOutput.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("consoleOutput.ServiceColors");
             consoleOutput.ShowLineNumbers = false;
-            consoleOutput.Size = new Size(477, 333);
+            consoleOutput.Size = new Size(477, 353);
             consoleOutput.TabIndex = 0;
             consoleOutput.ToolTipDelay = 100;
             consoleOutput.Zoom = 100;
@@ -417,12 +419,12 @@
             panelPlayerProfile.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             panelPlayerProfile.Controls.Add(btnPlayerProfile);
             panelPlayerProfile.Controls.Add(lblPlayerProfile);
-            panelPlayerProfile.Controls.Add(dropdownList);
             panelPlayerProfile.Controls.Add(panelProfileInfo);
+            panelPlayerProfile.Controls.Add(dropdownList);
             panelPlayerProfile.Font = new Font("Bender", 14F);
             panelPlayerProfile.Location = new Point(508, 3);
             panelPlayerProfile.Name = "panelPlayerProfile";
-            panelPlayerProfile.Size = new Size(314, 369);
+            panelPlayerProfile.Size = new Size(314, 389);
             panelPlayerProfile.TabIndex = 0;
             // 
             // btnPlayerProfile
@@ -456,7 +458,9 @@
             // panelProfileInfo
             // 
             panelProfileInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            panelProfileInfo.Controls.Add(statusInvalidProfile);
+            panelProfileInfo.Controls.Add(label4);
+            panelProfileInfo.Controls.Add(panel5);
+            panelProfileInfo.Controls.Add(statusCharacterLevel);
             panelProfileInfo.Controls.Add(profileSeparator3);
             panelProfileInfo.Controls.Add(statusGameEdition);
             panelProfileInfo.Controls.Add(profileSeparator2);
@@ -465,20 +469,18 @@
             panelProfileInfo.Controls.Add(statusDisplayName);
             panelProfileInfo.Location = new Point(11, 97);
             panelProfileInfo.Name = "panelProfileInfo";
-            panelProfileInfo.Size = new Size(292, 265);
+            panelProfileInfo.Size = new Size(292, 285);
             panelProfileInfo.TabIndex = 4;
             // 
-            // statusInvalidProfile
+            // statusCharacterLevel
             // 
-            statusInvalidProfile.Font = new Font("Bender", 12F, FontStyle.Bold);
-            statusInvalidProfile.ForeColor = Color.IndianRed;
-            statusInvalidProfile.Location = new Point(3, 187);
-            statusInvalidProfile.Name = "statusInvalidProfile";
-            statusInvalidProfile.Size = new Size(286, 42);
-            statusInvalidProfile.TabIndex = 12;
-            statusInvalidProfile.Text = "Invalid profile! Launching this profile may break.";
-            statusInvalidProfile.TextAlign = ContentAlignment.MiddleLeft;
-            statusInvalidProfile.Visible = false;
+            statusCharacterLevel.Font = new Font("Bender", 13F, FontStyle.Bold);
+            statusCharacterLevel.Location = new Point(3, 187);
+            statusCharacterLevel.Name = "statusCharacterLevel";
+            statusCharacterLevel.Size = new Size(286, 25);
+            statusCharacterLevel.TabIndex = 12;
+            statusCharacterLevel.Text = "Character level:";
+            statusCharacterLevel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // profileSeparator3
             // 
@@ -491,7 +493,7 @@
             // 
             // statusGameEdition
             // 
-            statusGameEdition.Font = new Font("Bender", 12F, FontStyle.Bold);
+            statusGameEdition.Font = new Font("Bender", 13F, FontStyle.Bold);
             statusGameEdition.Location = new Point(3, 128);
             statusGameEdition.Name = "statusGameEdition";
             statusGameEdition.Size = new Size(286, 25);
@@ -510,7 +512,7 @@
             // 
             // statusAID
             // 
-            statusAID.Font = new Font("Bender", 12F, FontStyle.Bold);
+            statusAID.Font = new Font("Bender", 13F, FontStyle.Bold);
             statusAID.Location = new Point(3, 70);
             statusAID.Name = "statusAID";
             statusAID.Size = new Size(286, 25);
@@ -529,7 +531,7 @@
             // 
             // statusDisplayName
             // 
-            statusDisplayName.Font = new Font("Bender", 12F, FontStyle.Bold);
+            statusDisplayName.Font = new Font("Bender", 13F, FontStyle.Bold);
             statusDisplayName.Location = new Point(3, 12);
             statusDisplayName.Name = "statusDisplayName";
             statusDisplayName.Size = new Size(286, 25);
@@ -543,7 +545,7 @@
             dropdownList.Cursor = Cursors.Hand;
             dropdownList.Location = new Point(11, 97);
             dropdownList.Name = "dropdownList";
-            dropdownList.Size = new Size(292, 265);
+            dropdownList.Size = new Size(292, 285);
             dropdownList.TabIndex = 3;
             dropdownList.Visible = false;
             dropdownList.Paint += dropdownList_Paint;
@@ -559,14 +561,14 @@
             errorPanel.Controls.Add(label2);
             errorPanel.Location = new Point(12, 135);
             errorPanel.Name = "errorPanel";
-            errorPanel.Size = new Size(825, 381);
+            errorPanel.Size = new Size(825, 401);
             errorPanel.TabIndex = 2;
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.None;
             label3.Font = new Font("Bender", 14F);
-            label3.Location = new Point(23, 75);
+            label3.Location = new Point(23, 85);
             label3.Name = "label3";
             label3.Size = new Size(778, 124);
             label3.TabIndex = 4;
@@ -578,7 +580,7 @@
             panelInstruction.Anchor = AnchorStyles.None;
             panelInstruction.BorderStyle = BorderStyle.FixedSingle;
             panelInstruction.Controls.Add(imgInstruction);
-            panelInstruction.Location = new Point(306, 202);
+            panelInstruction.Location = new Point(306, 212);
             panelInstruction.Name = "panelInstruction";
             panelInstruction.Size = new Size(213, 127);
             panelInstruction.TabIndex = 3;
@@ -605,12 +607,30 @@
             label2.Text = "First game launch detected";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // label4
+            // 
+            label4.Font = new Font("Bender", 13F, FontStyle.Bold);
+            label4.Location = new Point(3, 246);
+            label4.Name = "label4";
+            label4.Size = new Size(286, 25);
+            label4.TabIndex = 14;
+            label4.Text = "Character level:";
+            label4.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // panel5
+            // 
+            panel5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            panel5.Location = new Point(3, 224);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(286, 10);
+            panel5.TabIndex = 13;
+            // 
             // mainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(38, 41, 44);
-            ClientSize = new Size(849, 528);
+            ClientSize = new Size(849, 548);
             Controls.Add(topPanel);
             Controls.Add(mainPanel);
             Controls.Add(errorPanel);
@@ -618,7 +638,7 @@
             ForeColor = Color.Silver;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 4, 3, 4);
-            MinimumSize = new Size(865, 567);
+            MinimumSize = new Size(865, 587);
             Name = "mainForm";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
@@ -686,7 +706,9 @@
         private PictureBox btnBrowseClientFolder;
         private Panel panel4;
         private Label settingsClient;
-        private Label statusInvalidProfile;
         private Label statusConfirmed;
+        private Label statusCharacterLevel;
+        private Label label4;
+        private Panel panel5;
     }
 }

@@ -15,6 +15,8 @@ using System.Transactions;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Timer = System.Windows.Forms.Timer;
+using FikaRunner;
+using static FikaRunner.ProfileData;
 
 namespace FikaRunner
 {
@@ -319,17 +321,6 @@ namespace FikaRunner
             string profilesPath = Path.Join(currentEnv, "SPT", "user", "profiles");
             string[] profileJsons = Directory.GetFiles(profilesPath, "*.json");
 
-            if (profileJsons.Length == 0)
-            {
-                btnPlayerProfile.Enabled = false;
-                statusInvalidProfile.Visible = true;
-                statusInvalidProfile.Text = "No profiles available! Use the SPT Launcher to generate at least one.";
-                return;
-            }
-
-            statusInvalidProfile.Visible = false;
-            statusInvalidProfile.Text = "Invalid profile! Launching this profile may break.";
-
             for (int i = 0; i < profileJsons.Length; i++)
             {
                 string fullPath = Path.GetFullPath(profileJsons[i]);
@@ -377,14 +368,12 @@ namespace FikaRunner
             statusDisplayName.Text = "Name > " + recentProfileDisplayName;
             statusAID.Text = "AID > " + recentProfileAID;
             statusGameEdition.Text = "Game version > " + recentProfileEdition;
+            btnBrowseClient.Enabled = false;
 
-            if (isValidSPTProfile(path))
+            if (!isValidSPTProfile(path))
             {
-                statusInvalidProfile.Visible = false;
-            }
-            else
-            {
-                statusInvalidProfile.Visible = true;
+                btnPlayerProfile.Text += " (invalid)";
+                btnBrowseClient.Enabled = false;
             }
 
             Properties.Settings.Default.lastProfile = recentProfileAID;
@@ -1473,54 +1462,5 @@ namespace FikaRunner
 
             }
         }
-    }
-
-    public class ProfileStructure
-    {
-        public InfoSection? info { get; set; }
-        public CharactersSection? characters { get; set; }
-        public Dictionary<string, object>? dialogues { get; set; }
-        public InraidSection? inraid { get; set; }
-        public object[]? insurance { get; set; }
-    }
-
-    public class InfoSection
-    {
-        public string? id { get; set; }
-        public string? scavId { get; set; }
-        public int? aid { get; set; }
-        public string? username { get; set; }
-        public bool? wipe { get; set; }
-        public string? edition { get; set; }
-    }
-
-    public class CharactersSection
-    {
-        public CharacterData? pmc { get; set; }
-        public CharacterData? scav { get; set; }
-    }
-
-    public class CharacterData
-    {
-        public object? savage { get; set; }
-        public object? Encyclopedia { get; set; }
-        public object? Hideout { get; set; }
-        public object[]? WishList { get; set; }
-    }
-
-    public class InraidSection
-    {
-        public string? location { get; set; }
-        public string? character { get; set; }
-    }
-
-    public class UserInfo
-    {
-        public string? id { get; set; }
-        public string? scavId { get; set; }
-        public int? aid { get; set; }
-        public string? username { get; set; }
-        public bool? wipe { get; set; }
-        public string? edition { get; set; }
     }
 }
