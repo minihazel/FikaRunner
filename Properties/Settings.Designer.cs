@@ -106,5 +106,17 @@ namespace FikaRunner.Properties {
                 this["displayMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool displayWarning {
+            get {
+                return ((bool)(this["displayWarning"]));
+            }
+            set {
+                this["displayWarning"] = value;
+            }
+        }
     }
 }

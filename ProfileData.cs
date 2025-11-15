@@ -33,7 +33,7 @@ namespace FikaRunner
             public CharacterData? scav { get; set; }
         }
 
-        public class InfoData
+        public class charInfo
         {
             public string? Side { get; set; }
             public int? Level { get; set; }
@@ -41,7 +41,7 @@ namespace FikaRunner
 
         public class CharacterData
         {
-            public InfoData? Info { get; set; }
+            public charInfo? Info { get; set; }
             public object? savage { get; set; }
             public object? Encyclopedia { get; set; }
             public object? Hideout { get; set; }

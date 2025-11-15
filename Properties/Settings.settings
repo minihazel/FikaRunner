@@ -23,5 +23,8 @@
     <Setting Name="displayMode" Type="System.String" Scope="User">
       <Value Profile="(Default)">Borderless Fullscreen</Value>
     </Setting>
+    <Setting Name="displayWarning" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

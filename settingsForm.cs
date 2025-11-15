@@ -81,6 +81,19 @@ namespace FikaRunner
                 valueProfile.Tag = Properties.Settings.Default.lastProfile;
             }
 
+            if (Properties.Settings.Default.firstLaunch)
+            {
+                btnBrowsePlayerDir.Enabled = false;
+                btnClearPlayerDir.Enabled = false;
+            }
+            else
+            {
+                btnBrowsePlayerDir.Enabled = true;
+                btnClearPlayerDir.Enabled = true;
+            }
+
+            chkDisplayPopup.Checked = Properties.Settings.Default.displayWarning;
+
             string displayModeSetting = Properties.Settings.Default.displayMode;
             btnDisplayMode.Text = "> " + displayModeSetting;
 
@@ -100,12 +113,12 @@ namespace FikaRunner
 
         private void btnClearHomeDir_MouseEnter(object sender, EventArgs e)
         {
-            btnClearHomeDir.Image = Properties.Resources.bin_selected;
+            btnClearPlayerDir.Image = Properties.Resources.bin_selected;
         }
 
         private void btnClearHomeDir_MouseLeave(object sender, EventArgs e)
         {
-            btnClearHomeDir.Image = Properties.Resources.bin;
+            btnClearPlayerDir.Image = Properties.Resources.bin;
         }
 
         private void btnClearPlayerDir_Click(object sender, EventArgs e)
@@ -366,6 +379,12 @@ namespace FikaRunner
                     Application.Restart();
                 }
             }
+        }
+
+        private void chkDisplayPopup_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.displayWarning = chkDisplayPopup.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

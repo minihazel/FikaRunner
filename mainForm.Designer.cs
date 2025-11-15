@@ -58,6 +58,8 @@
             btnPlayerProfile = new Button();
             lblPlayerProfile = new Label();
             panelProfileInfo = new Panel();
+            statusCharacterSide = new Label();
+            profileSeparator4 = new Panel();
             statusCharacterLevel = new Label();
             profileSeparator3 = new Panel();
             statusGameEdition = new Label();
@@ -71,8 +73,6 @@
             panelInstruction = new Panel();
             imgInstruction = new PictureBox();
             label2 = new Label();
-            label4 = new Label();
-            panel5 = new Panel();
             topPanel.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnBrowseClientFolder).BeginInit();
@@ -113,7 +113,7 @@
             // 
             statusConfirmed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             statusConfirmed.Font = new Font("Bahnschrift", 8F, FontStyle.Bold);
-            statusConfirmed.Location = new Point(570, 18);
+            statusConfirmed.Location = new Point(580, 18);
             statusConfirmed.Name = "statusConfirmed";
             statusConfirmed.Size = new Size(37, 22);
             statusConfirmed.TabIndex = 7;
@@ -363,7 +363,7 @@
             outputPanel.Controls.Add(consoleOutput);
             outputPanel.Location = new Point(3, 26);
             outputPanel.Name = "outputPanel";
-            outputPanel.Size = new Size(489, 366);
+            outputPanel.Size = new Size(489, 347);
             outputPanel.TabIndex = 1;
             // 
             // consoleOutput
@@ -409,7 +409,7 @@
             consoleOutput.SelectionColor = Color.FromArgb(60, 192, 192, 192);
             consoleOutput.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("consoleOutput.ServiceColors");
             consoleOutput.ShowLineNumbers = false;
-            consoleOutput.Size = new Size(477, 353);
+            consoleOutput.Size = new Size(477, 334);
             consoleOutput.TabIndex = 0;
             consoleOutput.ToolTipDelay = 100;
             consoleOutput.Zoom = 100;
@@ -458,8 +458,8 @@
             // panelProfileInfo
             // 
             panelProfileInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            panelProfileInfo.Controls.Add(label4);
-            panelProfileInfo.Controls.Add(panel5);
+            panelProfileInfo.Controls.Add(statusCharacterSide);
+            panelProfileInfo.Controls.Add(profileSeparator4);
             panelProfileInfo.Controls.Add(statusCharacterLevel);
             panelProfileInfo.Controls.Add(profileSeparator3);
             panelProfileInfo.Controls.Add(statusGameEdition);
@@ -472,20 +472,39 @@
             panelProfileInfo.Size = new Size(292, 285);
             panelProfileInfo.TabIndex = 4;
             // 
+            // statusCharacterSide
+            // 
+            statusCharacterSide.Font = new Font("Bender", 11F, FontStyle.Bold);
+            statusCharacterSide.Location = new Point(3, 248);
+            statusCharacterSide.Name = "statusCharacterSide";
+            statusCharacterSide.Size = new Size(286, 25);
+            statusCharacterSide.TabIndex = 14;
+            statusCharacterSide.Text = "Character faction >";
+            statusCharacterSide.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // profileSeparator4
+            // 
+            profileSeparator4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            profileSeparator4.Location = new Point(3, 226);
+            profileSeparator4.Name = "profileSeparator4";
+            profileSeparator4.Size = new Size(286, 10);
+            profileSeparator4.TabIndex = 13;
+            profileSeparator4.Paint += profileSeparator4_Paint_1;
+            // 
             // statusCharacterLevel
             // 
-            statusCharacterLevel.Font = new Font("Bender", 13F, FontStyle.Bold);
-            statusCharacterLevel.Location = new Point(3, 187);
+            statusCharacterLevel.Font = new Font("Bender", 11F, FontStyle.Bold);
+            statusCharacterLevel.Location = new Point(3, 189);
             statusCharacterLevel.Name = "statusCharacterLevel";
             statusCharacterLevel.Size = new Size(286, 25);
             statusCharacterLevel.TabIndex = 12;
-            statusCharacterLevel.Text = "Character level:";
+            statusCharacterLevel.Text = "Character level >";
             statusCharacterLevel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // profileSeparator3
             // 
             profileSeparator3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            profileSeparator3.Location = new Point(3, 165);
+            profileSeparator3.Location = new Point(3, 167);
             profileSeparator3.Name = "profileSeparator3";
             profileSeparator3.Size = new Size(286, 10);
             profileSeparator3.TabIndex = 11;
@@ -493,18 +512,18 @@
             // 
             // statusGameEdition
             // 
-            statusGameEdition.Font = new Font("Bender", 13F, FontStyle.Bold);
-            statusGameEdition.Location = new Point(3, 128);
+            statusGameEdition.Font = new Font("Bender", 11F, FontStyle.Bold);
+            statusGameEdition.Location = new Point(3, 130);
             statusGameEdition.Name = "statusGameEdition";
             statusGameEdition.Size = new Size(286, 25);
             statusGameEdition.TabIndex = 10;
-            statusGameEdition.Text = "Game edition:";
+            statusGameEdition.Text = "Game edition >";
             statusGameEdition.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // profileSeparator2
             // 
             profileSeparator2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            profileSeparator2.Location = new Point(3, 107);
+            profileSeparator2.Location = new Point(3, 108);
             profileSeparator2.Name = "profileSeparator2";
             profileSeparator2.Size = new Size(286, 10);
             profileSeparator2.TabIndex = 9;
@@ -512,12 +531,12 @@
             // 
             // statusAID
             // 
-            statusAID.Font = new Font("Bender", 13F, FontStyle.Bold);
-            statusAID.Location = new Point(3, 70);
+            statusAID.Font = new Font("Bender", 11F, FontStyle.Bold);
+            statusAID.Location = new Point(3, 71);
             statusAID.Name = "statusAID";
             statusAID.Size = new Size(286, 25);
             statusAID.TabIndex = 8;
-            statusAID.Text = "Profile AID:";
+            statusAID.Text = "AID >";
             statusAID.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // profileSeparator1
@@ -531,12 +550,12 @@
             // 
             // statusDisplayName
             // 
-            statusDisplayName.Font = new Font("Bender", 13F, FontStyle.Bold);
+            statusDisplayName.Font = new Font("Bender", 11F, FontStyle.Bold);
             statusDisplayName.Location = new Point(3, 12);
             statusDisplayName.Name = "statusDisplayName";
             statusDisplayName.Size = new Size(286, 25);
             statusDisplayName.TabIndex = 0;
-            statusDisplayName.Text = "Display name:";
+            statusDisplayName.Text = "Display name >";
             statusDisplayName.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // dropdownList
@@ -606,24 +625,6 @@
             label2.TabIndex = 1;
             label2.Text = "First game launch detected";
             label2.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // label4
-            // 
-            label4.Font = new Font("Bender", 13F, FontStyle.Bold);
-            label4.Location = new Point(3, 246);
-            label4.Name = "label4";
-            label4.Size = new Size(286, 25);
-            label4.TabIndex = 14;
-            label4.Text = "Character level:";
-            label4.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // panel5
-            // 
-            panel5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            panel5.Location = new Point(3, 224);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(286, 10);
-            panel5.TabIndex = 13;
             // 
             // mainForm
             // 
@@ -708,7 +709,7 @@
         private Label settingsClient;
         private Label statusConfirmed;
         private Label statusCharacterLevel;
-        private Label label4;
-        private Panel panel5;
+        private Label statusCharacterSide;
+        private Panel profileSeparator4;
     }
 }

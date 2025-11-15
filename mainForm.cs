@@ -37,6 +37,7 @@ namespace FikaRunner
         public bool isDropdownOpen = false;
         public bool firstLaunch = true;
         public bool isServerRunning = false;
+        public bool invalidProfileSelected = false;
 
         // ints
         private int dropdownItemHeight = 40;
@@ -77,6 +78,29 @@ namespace FikaRunner
                     {
                         reader.Read();
                         userInfo = serializer.Deserialize<UserInfo>(reader);
+                        break;
+                    }
+                }
+            }
+
+            return userInfo;
+        }
+
+        public charInfo getProfileData(string filePath)
+        {
+            charInfo? userInfo = null;
+
+            using (StreamReader file = File.OpenText(filePath))
+            using (JsonTextReader reader = new JsonTextReader(file))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+
+                while (reader.Read())
+                {
+                    if (reader.TokenType == JsonToken.PropertyName && (string?)reader.Value == "Info")
+                    {
+                        reader.Read();
+                        userInfo = serializer.Deserialize<charInfo>(reader);
                         break;
                     }
                 }
@@ -288,6 +312,7 @@ namespace FikaRunner
             dropdownList.Refresh();
             dropdownList.Visible = true;
             isDropdownOpen = true;
+            dropdownList.BringToFront();
         }
 
         public void closeProfileDropdown()
@@ -295,6 +320,7 @@ namespace FikaRunner
             dropdownList.Invalidate();
             dropdownList.Visible = false;
             isDropdownOpen = false;
+            panelProfileInfo.BringToFront();
         }
 
         public string fetchMostRecentProfile(string path)
@@ -358,9 +384,21 @@ namespace FikaRunner
 
         private void displayProfileDetails(UserInfo fetchedProfile, string path)
         {
+            string notAvailableProfile = "N/A";
+            string profileCharLevel = string.Empty;
+            string profileCharSide = string.Empty;
+
+            charInfo? userData = getProfileData(path);
+            if (userData == null)
+            {
+                Debug.WriteLine("`userData` was null");
+            }
+
             string? recentProfileDisplayName = fetchedProfile?.username?.ToString();
             string? recentProfileAID = fetchedProfile?.id?.ToString();
             string? recentProfileEdition = fetchedProfile?.edition?.ToString();
+            profileCharLevel = userData?.Level?.ToString() ?? notAvailableProfile;
+            profileCharSide = userData?.Side?.ToString() ?? notAvailableProfile;
 
             btnPlayerProfile.Text = "> " + recentProfileDisplayName;
             btnPlayerProfile.Tag = recentProfileAID;
@@ -368,12 +406,17 @@ namespace FikaRunner
             statusDisplayName.Text = "Name > " + recentProfileDisplayName;
             statusAID.Text = "AID > " + recentProfileAID;
             statusGameEdition.Text = "Game version > " + recentProfileEdition;
-            btnBrowseClient.Enabled = false;
+            statusCharacterLevel.Text = "Character level > " + profileCharLevel;
+            statusCharacterSide.Text = "Character faction > " + profileCharSide;
+
+            btnBrowseClient.Enabled = true;
+            invalidProfileSelected = false;
 
             if (!isValidSPTProfile(path))
             {
                 btnPlayerProfile.Text += " (invalid)";
                 btnBrowseClient.Enabled = false;
+                invalidProfileSelected = true;
             }
 
             Properties.Settings.Default.lastProfile = recentProfileAID;
@@ -413,6 +456,28 @@ namespace FikaRunner
             }
 
             // initialize bgworkers and procs
+
+            if (invalidProfileSelected && Properties.Settings.Default.displayWarning)
+            {
+                if (string.IsNullOrEmpty(btnPlayerProfile.Text.Replace("> ", "")))
+                {
+                    Debug.WriteLine("`btnPlayerProfile.Text` was null");
+                    return;
+                }
+
+                string? profileName = btnPlayerProfile.Text.Replace("> ", "");
+                string? content = "Your selected profile '" + profileName + "' is malformed/incomplete. Launch the game anyway?";
+
+                if (MessageBox.Show(content, "SPT-Fika Launcher", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    terminateAllProcesses();
+                    Task.Delay(1000);
+                    sptServerProcess = startSPTServerProcess();
+                }
+
+                return;
+            }
+
             terminateAllProcesses();
             Task.Delay(1000);
             sptServerProcess = startSPTServerProcess();
@@ -1460,6 +1525,17 @@ namespace FikaRunner
             {
                 string[] profiles = Directory.GetFiles(fullPath, "*.json");
 
+            }
+        }
+
+        private void profileSeparator4_Paint_1(object sender, PaintEventArgs e)
+        {
+            Panel panel = (Panel)sender;
+            int centerY = panel.Height / 2;
+
+            using (Pen pen = new Pen(Color.FromArgb(100, 100, 100), 1))
+            {
+                e.Graphics.DrawLine(pen, 0, centerY, panel.Width, centerY);
             }
         }
     }

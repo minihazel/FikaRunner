@@ -30,11 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(settingsForm));
             panel1 = new Panel();
+            label3 = new Label();
             label2 = new Label();
             label1 = new Label();
             lblHomeDir = new Label();
             lblPlayerDir = new Label();
             rightPanel = new Panel();
+            chkDisplayPopup = new CheckBox();
             btnResetSettings = new PictureBox();
             statusConfirmed = new Label();
             btnDisplayMode = new Button();
@@ -42,31 +44,44 @@
             valueProfile = new TextBox();
             valueHomeDir = new TextBox();
             btnBrowsePlayerDir = new PictureBox();
-            btnClearHomeDir = new PictureBox();
+            btnClearPlayerDir = new PictureBox();
             valuePlayerDir = new TextBox();
             panel1.SuspendLayout();
             rightPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnResetSettings).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnBrowsePlayerDir).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnClearHomeDir).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnClearPlayerDir).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(lblHomeDir);
             panel1.Controls.Add(lblPlayerDir);
             panel1.Location = new Point(12, 54);
             panel1.Name = "panel1";
-            panel1.Size = new Size(159, 347);
+            panel1.Size = new Size(159, 408);
             panel1.TabIndex = 0;
+            // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            label3.Font = new Font("Bender", 11F, FontStyle.Bold);
+            label3.Location = new Point(3, 164);
+            label3.Name = "label3";
+            label3.Size = new Size(153, 26);
+            label3.TabIndex = 4;
+            label3.Text = "Invalid profile";
+            label3.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label2.Font = new Font("Bender", 11F, FontStyle.Bold);
-            label2.Location = new Point(3, 166);
+            label2.Location = new Point(3, 226);
             label2.Name = "label2";
             label2.Size = new Size(153, 26);
             label2.TabIndex = 3;
@@ -109,6 +124,7 @@
             // rightPanel
             // 
             rightPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            rightPanel.Controls.Add(chkDisplayPopup);
             rightPanel.Controls.Add(btnResetSettings);
             rightPanel.Controls.Add(statusConfirmed);
             rightPanel.Controls.Add(btnDisplayMode);
@@ -116,19 +132,30 @@
             rightPanel.Controls.Add(valueProfile);
             rightPanel.Controls.Add(valueHomeDir);
             rightPanel.Controls.Add(btnBrowsePlayerDir);
-            rightPanel.Controls.Add(btnClearHomeDir);
+            rightPanel.Controls.Add(btnClearPlayerDir);
             rightPanel.Controls.Add(valuePlayerDir);
             rightPanel.Location = new Point(177, 54);
             rightPanel.Name = "rightPanel";
-            rightPanel.Size = new Size(426, 347);
+            rightPanel.Size = new Size(426, 408);
             rightPanel.TabIndex = 1;
+            // 
+            // chkDisplayPopup
+            // 
+            chkDisplayPopup.AutoSize = true;
+            chkDisplayPopup.Location = new Point(3, 159);
+            chkDisplayPopup.Name = "chkDisplayPopup";
+            chkDisplayPopup.Size = new Size(382, 40);
+            chkDisplayPopup.TabIndex = 16;
+            chkDisplayPopup.Text = "Display pop-up warning for incomplete/invalid profile\r\nwhen running the game";
+            chkDisplayPopup.UseVisualStyleBackColor = true;
+            chkDisplayPopup.CheckedChanged += chkDisplayPopup_CheckedChanged;
             // 
             // btnResetSettings
             // 
-            btnResetSettings.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnResetSettings.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnResetSettings.Cursor = Cursors.Hand;
             btnResetSettings.Image = Properties.Resources.reset;
-            btnResetSettings.Location = new Point(341, 304);
+            btnResetSettings.Location = new Point(341, 365);
             btnResetSettings.Name = "btnResetSettings";
             btnResetSettings.Size = new Size(30, 30);
             btnResetSettings.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -140,9 +167,8 @@
             // 
             // statusConfirmed
             // 
-            statusConfirmed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             statusConfirmed.Font = new Font("Bahnschrift", 14F);
-            statusConfirmed.Location = new Point(310, 160);
+            statusConfirmed.Location = new Point(310, 220);
             statusConfirmed.Name = "statusConfirmed";
             statusConfirmed.Size = new Size(35, 35);
             statusConfirmed.TabIndex = 13;
@@ -159,7 +185,7 @@
             btnDisplayMode.ForeColor = Color.DarkOrange;
             btnDisplayMode.Image = Properties.Resources.btn_art;
             btnDisplayMode.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDisplayMode.Location = new Point(3, 157);
+            btnDisplayMode.Location = new Point(3, 217);
             btnDisplayMode.Name = "btnDisplayMode";
             btnDisplayMode.Padding = new Padding(5, 0, 0, 0);
             btnDisplayMode.Size = new Size(292, 44);
@@ -171,10 +197,9 @@
             // 
             // dropdownDisplay
             // 
-            dropdownDisplay.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             dropdownDisplay.Cursor = Cursors.Hand;
             dropdownDisplay.Font = new Font("Bender", 11F, FontStyle.Bold);
-            dropdownDisplay.Location = new Point(3, 201);
+            dropdownDisplay.Location = new Point(3, 261);
             dropdownDisplay.Name = "dropdownDisplay";
             dropdownDisplay.Size = new Size(292, 133);
             dropdownDisplay.TabIndex = 12;
@@ -219,19 +244,19 @@
             btnBrowsePlayerDir.MouseEnter += btnBrowsePlayerDir_MouseEnter;
             btnBrowsePlayerDir.MouseLeave += btnBrowsePlayerDir_MouseLeave;
             // 
-            // btnClearHomeDir
+            // btnClearPlayerDir
             // 
-            btnClearHomeDir.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnClearHomeDir.Cursor = Cursors.Hand;
-            btnClearHomeDir.Image = Properties.Resources.bin;
-            btnClearHomeDir.Location = new Point(351, 42);
-            btnClearHomeDir.Name = "btnClearHomeDir";
-            btnClearHomeDir.Size = new Size(20, 20);
-            btnClearHomeDir.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnClearHomeDir.TabIndex = 7;
-            btnClearHomeDir.TabStop = false;
-            btnClearHomeDir.MouseEnter += btnClearHomeDir_MouseEnter;
-            btnClearHomeDir.MouseLeave += btnClearHomeDir_MouseLeave;
+            btnClearPlayerDir.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClearPlayerDir.Cursor = Cursors.Hand;
+            btnClearPlayerDir.Image = Properties.Resources.bin;
+            btnClearPlayerDir.Location = new Point(351, 42);
+            btnClearPlayerDir.Name = "btnClearPlayerDir";
+            btnClearPlayerDir.Size = new Size(20, 20);
+            btnClearPlayerDir.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnClearPlayerDir.TabIndex = 7;
+            btnClearPlayerDir.TabStop = false;
+            btnClearPlayerDir.MouseEnter += btnClearHomeDir_MouseEnter;
+            btnClearPlayerDir.MouseLeave += btnClearHomeDir_MouseLeave;
             // 
             // valuePlayerDir
             // 
@@ -248,7 +273,7 @@
             AutoScaleDimensions = new SizeF(8F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(38, 41, 44);
-            ClientSize = new Size(615, 413);
+            ClientSize = new Size(615, 474);
             Controls.Add(rightPanel);
             Controls.Add(panel1);
             Font = new Font("Bahnschrift", 11F);
@@ -257,6 +282,7 @@
             Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             MinimizeBox = false;
+            MinimumSize = new Size(631, 513);
             Name = "settingsForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Settings";
@@ -266,7 +292,7 @@
             rightPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnResetSettings).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnBrowsePlayerDir).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnClearHomeDir).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnClearPlayerDir).EndInit();
             ResumeLayout(false);
         }
 
@@ -278,7 +304,7 @@
         private Label lblHomeDir;
         private TextBox valuePlayerDir;
         private TextBox valueHomeDir;
-        private PictureBox btnClearHomeDir;
+        private PictureBox btnClearPlayerDir;
         private PictureBox btnBrowsePlayerDir;
         private TextBox valueProfile;
         private Label label1;
@@ -287,5 +313,7 @@
         private Panel dropdownDisplay;
         private Label statusConfirmed;
         private PictureBox btnResetSettings;
+        private Label label3;
+        private CheckBox chkDisplayPopup;
     }
 }
