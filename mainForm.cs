@@ -800,6 +800,11 @@ namespace FikaRunner
             btnOpenSettings.Image = Properties.Resources.settings_disabled;
 
             checkServerUptime();
+            if (Properties.Settings.Default.minimizeOnLaunch)
+            {
+                if (this == null) return;
+                WindowState = FormWindowState.Minimized;
+            }
         }
 
         /*
@@ -1011,6 +1016,12 @@ namespace FikaRunner
             checkServerWorker = null;
             fikaEndDetectWorker = null;
             playerEndDetectWorker = null;
+
+            if (Properties.Settings.Default.minimizeOnLaunch)
+            {
+                if (this == null) return;
+                WindowState = FormWindowState.Normal;
+            }
         }
 
         private void printServerData(string data)

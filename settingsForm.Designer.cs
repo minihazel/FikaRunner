@@ -45,6 +45,8 @@
             valueHomeDir = new TextBox();
             btnBrowsePlayerDir = new PictureBox();
             valuePlayerDir = new TextBox();
+            label4 = new Label();
+            chkMinimize = new CheckBox();
             panel1.SuspendLayout();
             rightPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnResetSettings).BeginInit();
@@ -54,6 +56,7 @@
             // panel1
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
@@ -61,7 +64,7 @@
             panel1.Controls.Add(lblPlayerDir);
             panel1.Location = new Point(12, 54);
             panel1.Name = "panel1";
-            panel1.Size = new Size(159, 408);
+            panel1.Size = new Size(159, 472);
             panel1.TabIndex = 0;
             // 
             // label3
@@ -79,7 +82,7 @@
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label2.Font = new Font("Bender", 11F, FontStyle.Bold);
-            label2.Location = new Point(3, 226);
+            label2.Location = new Point(3, 260);
             label2.Name = "label2";
             label2.Size = new Size(153, 26);
             label2.TabIndex = 3;
@@ -122,6 +125,7 @@
             // rightPanel
             // 
             rightPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            rightPanel.Controls.Add(chkMinimize);
             rightPanel.Controls.Add(chkDisplayPopup);
             rightPanel.Controls.Add(btnResetSettings);
             rightPanel.Controls.Add(statusConfirmed);
@@ -133,7 +137,7 @@
             rightPanel.Controls.Add(valuePlayerDir);
             rightPanel.Location = new Point(177, 54);
             rightPanel.Name = "rightPanel";
-            rightPanel.Size = new Size(426, 408);
+            rightPanel.Size = new Size(426, 472);
             rightPanel.TabIndex = 1;
             // 
             // chkDisplayPopup
@@ -153,7 +157,7 @@
             btnResetSettings.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnResetSettings.Cursor = Cursors.Hand;
             btnResetSettings.Image = Properties.Resources.reset;
-            btnResetSettings.Location = new Point(341, 365);
+            btnResetSettings.Location = new Point(341, 429);
             btnResetSettings.Name = "btnResetSettings";
             btnResetSettings.Size = new Size(30, 30);
             btnResetSettings.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -166,7 +170,7 @@
             // statusConfirmed
             // 
             statusConfirmed.Font = new Font("Bahnschrift", 14F);
-            statusConfirmed.Location = new Point(310, 220);
+            statusConfirmed.Location = new Point(310, 253);
             statusConfirmed.Name = "statusConfirmed";
             statusConfirmed.Size = new Size(35, 35);
             statusConfirmed.TabIndex = 13;
@@ -183,7 +187,7 @@
             btnDisplayMode.ForeColor = Color.DarkOrange;
             btnDisplayMode.Image = Properties.Resources.btn_art;
             btnDisplayMode.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDisplayMode.Location = new Point(3, 217);
+            btnDisplayMode.Location = new Point(3, 250);
             btnDisplayMode.Name = "btnDisplayMode";
             btnDisplayMode.Padding = new Padding(5, 0, 0, 0);
             btnDisplayMode.Size = new Size(292, 44);
@@ -197,7 +201,7 @@
             // 
             dropdownDisplay.Cursor = Cursors.Hand;
             dropdownDisplay.Font = new Font("Bender", 11F, FontStyle.Bold);
-            dropdownDisplay.Location = new Point(3, 261);
+            dropdownDisplay.Location = new Point(3, 294);
             dropdownDisplay.Name = "dropdownDisplay";
             dropdownDisplay.Size = new Size(292, 133);
             dropdownDisplay.TabIndex = 12;
@@ -252,12 +256,35 @@
             valuePlayerDir.Size = new Size(368, 24);
             valuePlayerDir.TabIndex = 0;
             // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            label4.Font = new Font("Bender", 11F, FontStyle.Bold);
+            label4.Location = new Point(3, 211);
+            label4.Name = "label4";
+            label4.Size = new Size(153, 26);
+            label4.TabIndex = 5;
+            label4.Text = "Post-launch";
+            label4.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // chkMinimize
+            // 
+            chkMinimize.AutoSize = true;
+            chkMinimize.Cursor = Cursors.Hand;
+            chkMinimize.Location = new Point(3, 215);
+            chkMinimize.Name = "chkMinimize";
+            chkMinimize.Size = new Size(195, 22);
+            chkMinimize.TabIndex = 17;
+            chkMinimize.Text = "Minimize on game launch";
+            chkMinimize.UseVisualStyleBackColor = true;
+            chkMinimize.CheckedChanged += chkMinimize_CheckedChanged;
+            // 
             // settingsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(38, 41, 44);
-            ClientSize = new Size(615, 474);
+            ClientSize = new Size(615, 538);
             Controls.Add(rightPanel);
             Controls.Add(panel1);
             Font = new Font("Bahnschrift", 11F);
@@ -297,5 +324,7 @@
         private PictureBox btnResetSettings;
         private Label label3;
         private CheckBox chkDisplayPopup;
+        private Label label4;
+        private CheckBox chkMinimize;
     }
 }

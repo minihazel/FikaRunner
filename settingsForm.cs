@@ -94,6 +94,7 @@ namespace FikaRunner
             }
 
             chkDisplayPopup.Checked = Properties.Settings.Default.displayWarning;
+            chkMinimize.Checked = Properties.Settings.Default.minimizeOnLaunch;
 
             string displayModeSetting = Properties.Settings.Default.displayMode;
             btnDisplayMode.Text = "> " + displayModeSetting;
@@ -368,6 +369,12 @@ namespace FikaRunner
         private void chkDisplayPopup_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.displayWarning = chkDisplayPopup.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void chkMinimize_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.minimizeOnLaunch = chkMinimize.Checked;
             Properties.Settings.Default.Save();
         }
     }

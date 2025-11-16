@@ -118,5 +118,17 @@ namespace FikaRunner.Properties {
                 this["displayWarning"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool minimizeOnLaunch {
+            get {
+                return ((bool)(this["minimizeOnLaunch"]));
+            }
+            set {
+                this["minimizeOnLaunch"] = value;
+            }
+        }
     }
 }
