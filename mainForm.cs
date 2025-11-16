@@ -1028,10 +1028,18 @@ namespace FikaRunner
         {
             string res = data;
             if (string.IsNullOrEmpty(res)) return;
-            const string ANSI_REGEX = @"\x1b\[[0-?]*[ -/]*[@-~]";
+            const string ANSI_REGEX = @"\x1b\[.*?m|\x1b\[.*?K|\x1b\[[0-9;]*[HfABCDSGJsmH]";
 
-            // res = Regex.Replace(res, @"\[[0-1];[0-9][a-z]|\[[0-9][0-9][a-z]|\[[0-9][a-z]|\[[0-9][A-Z]", String.Empty);
+            //@"\x1b\[[0-?]*[ -/]*[@-~]";
+            // @"\x1b\[.*?m|\x1b\[.*?K|\x1b\[[0-9;]*[HfABCDSGJsmH]";
+
+            // res =
+            // Regex.Replace(res,
+            // @"\[[0-1];[0-9][a-z]|\[[0-9][0-9][a-z]|\[[0-9][a-z]|\[[0-9][A-Z]",
+            // String.Empty);
+            
             string cleanData = Regex.Replace(data, ANSI_REGEX, String.Empty);
+            cleanData = Regex.Replace(cleanData, @"[\u0000-\u001F\u007F]", string.Empty);
 
             BeginInvoke((MethodInvoker)delegate
             {
