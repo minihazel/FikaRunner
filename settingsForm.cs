@@ -141,7 +141,7 @@ namespace FikaRunner
                 bool doesRootExist = Directory.Exists(root);
                 if (doesRootExist)
                 {
-                    if (mainForm.areThereSPTFilesInThePlayerDirectory(root))
+                    if (mainForm.areThereSPTFiles(root))
                     {
                         if (mainForm.isFikaCorePresent(root))
                         {
