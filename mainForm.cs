@@ -220,7 +220,7 @@ namespace FikaRunner
             errorPanel.BringToFront();
         }
 
-        public static bool areThereSPTFilesInThePlayerDirectory(string path)
+        public static bool areThereSPTFiles(string path)
         {
             string fullPath = Path.Join(path, "SPT");
 
@@ -231,26 +231,6 @@ namespace FikaRunner
             bool doesSPTLauncherExist = File.Exists(Path.Join(fullPath, SPTLauncher));
 
             if (doesSPTServerExist && doesSPTLauncherExist)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool areThereSPTFiles(string path)
-        {
-            string fullPath = Path.Join(path, "SPT");
-
-            string SPTServer = "SPT.Server.exe";
-            string SPTLauncher = "SPT.Launcher.exe";
-            string FikaHeadlessManager = "FikaHeadlessManager.exe";
-
-            bool doesSPTServerExist = File.Exists(Path.Join(fullPath, SPTServer));
-            bool doesSPTLauncherExist = File.Exists(Path.Join(fullPath, SPTLauncher));
-            bool doesFikaHeadlessManagerExist = File.Exists(Path.Join(path, FikaHeadlessManager));
-
-            if (doesSPTServerExist && doesSPTLauncherExist && doesFikaHeadlessManagerExist)
             {
                 return true;
             }
@@ -500,7 +480,7 @@ namespace FikaRunner
                     bool doesRootExist = Directory.Exists(root);
                     if (doesRootExist)
                     {
-                        if (areThereSPTFilesInThePlayerDirectory(root))
+                        if (areThereSPTFiles(root))
                         {
                             if (isFikaCorePresent(root))
                             {
